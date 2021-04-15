@@ -3,7 +3,7 @@
 
     /* globals Item */
 
-    function getItem (id) {
+    function isUnique (id) {
         return Item.has(id) && Item.get(id).unique;
     }
 
@@ -48,6 +48,10 @@
             }
 
             // add items
+
+            if (Object.keys(dataOrInv).includes(item) && isUnique(item)) {
+                return; // item is unique, can't be added.
+            }
 
             if (num > 0) {
 
@@ -144,14 +148,18 @@
         }
 
         pickUp (item, num) {
-            Inventory.change(this, item, num);
-            this.emit('pick-up');
+            const success = Inventory.change(this, item, num);
+            if (success) {
+                this.emit('pick-up');
+            }
             return this;
         }
 
         drop (item, num) {
-            Inventory.change(this, item, num, true);
-            this.emit('drop');
+            const success = Inventory.change(this, item, num, true);
+            if (success) {
+                this.emit('drop');
+            }
             return this;
         }
 
@@ -161,10 +169,12 @@
                 throw new TypeError('target inventory is not an inventory instance');
             }
             if (this.has(item)) {
-                Inventory.change(this, item, num, true); // drop
-                Inventory.change(target, item, num); // pick up
+                const success1 = Inventory.change(this, item, num, true); // drop
+                const success2 = Inventory.change(target, item, num); // pick up
+                if (success1 || success2) {
+                    this.emit('transfer');
+                }
             }
-            this.emit('transfer', target);
             return this;
         }
 
