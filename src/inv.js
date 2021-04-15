@@ -1,7 +1,7 @@
 (() => {
     'use strict';
 
-    /* globals Item */
+    const Item = setup.Item;
 
     function isUnique (id) {
         return Item.has(id) && Item.get(id).unique;
@@ -184,7 +184,7 @@
         }
 
         pickUp (item, num) { // legacy
-            return this.pickUp(item, num);
+            return this.pickup(item, num);
         }
 
         drop (item, num) {
@@ -193,6 +193,19 @@
                 this.emit('update');
             }
             return this;
+        }
+
+        merge (obj) {
+            const self = this;
+            const items = Inventory.itemset(obj);
+            Object.keys(items).forEach(i => { 
+                Inventory.change(self, i, items[i]);
+            });
+        }
+
+        empty () {
+            this.data = {};
+            this.emit('update');
         }
 
         transfer (target, item, num) {
@@ -210,6 +223,10 @@
             return this;
         }
 
+        isEmpty () {
+            return this.length === 0;
+        }
+
         iterate (cb) {
             if (typeof cb !== 'function') {
                 return this;
@@ -219,14 +236,6 @@
                 cb(i, this.data[i]);
             });
             return this;
-        }
-
-        merge (obj) {
-            const self = this;
-            const items = Inventory.itemset(obj);
-            Object.keys(items).forEach(i => { 
-                Inventory.change(self, i, items[i]);
-            });
         }
 
         use (id) {
@@ -266,7 +275,7 @@
             const self = this;
             return $(document.createElement(button ? 'button' : 'a'))
                 .addClass('drop-link', 'simple-inventory')
-                .wiki(text || target ? "Give" : "Drop")
+                .wiki(text ? text : target ? "Give" : "Drop")
                 .ariaClick(() => {
                     if (target && Inventory.is(target)) {
                         self.transfer(target, id);
@@ -305,10 +314,14 @@
 
                 if (options.use && Item.has(id) && Item.get(id).handler) {
                     appendMe.push(self.useLink(id));
+                } else {
+                    appendMe.push($(document.createElement('span')).addClass('spacer'));
                 }
 
                 if (((options.transfer && Inventory.is(options.transfer)) || options.drop) && !isPermanent(id)) {
-                    appendMe(self.dropLink(id, '', options.dropActionText, options.target || null));
+                    appendMe.push(self.dropLink(id, options.dropActionText, false, options.target || null));
+                } else {
+                    appendMe.push($(document.createElement('span')).addClass('spacer'));
                 }
 
                 return $(document.createElement('li'))
@@ -375,10 +388,11 @@
 
     Macro.add('newinv', {
         handler () {
-            if (!isValidVariable(this.args[0])) {
-                return this.error('argument must be the quoted name of a story variable or temporary variable!');
+            const varName = this.args.raw.trim().split(' ').first().replace(/["']/g, '').trim();
+            if (!isValidVariable(varName)) {
+                return this.error('argument must be a story or temporary variable!');
             }
-            State.setVar(this.args[0], new Inventory({}, this.args.flat(Infinity).slice(1)));
+            State.setVar(varName, new Inventory({}, this.args.flat(Infinity).slice(1)));
         }
     });
 
@@ -391,7 +405,7 @@
                 return this.error('first argument must be a valid inventory!');
             }
 
-            inv.pickUp(this.args[1], this.args[2]);
+            inv.pickup(this.args[1], this.args[2]);
         }
     });
 
@@ -438,7 +452,7 @@
                 return this.error('first argument must be a valid inventory!');
             }
 
-            if (this.args[1]) {
+            if (this.args[1] && getInv(this.args[1])) {
                 target = getInv(this.args[1]);
             }
 

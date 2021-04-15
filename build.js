@@ -6,7 +6,7 @@ const jetpack = require('fs-jetpack'),
     autoprefix = require('autoprefixer'),
     cleancss = require('postcss-clean');
 
-const jsFiles = ['items.js', 'inv.js'];
+const jsFiles = ['items.js', 'inv.js', 'events.js'];
 const cssFiles = ['style.css'];
 
 const buildDate = new Date().toISOString().split('T')[0],
