@@ -1,0 +1,18 @@
+{
+    "curly": true,
+    "eqeqeq": true,
+    "latedef": true,
+    "undef": true,
+    "browser": true,
+    "esversion": 6,
+    "globals": {
+        "define": true,
+        "module": true,
+        "State": false,
+        "setup": true,
+        "clone": false,
+        "$": false,
+        "Macro": false,
+        "Dialog": false
+    }
+}
