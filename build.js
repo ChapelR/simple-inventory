@@ -15,7 +15,7 @@ const buildDate = new Date().toISOString().split('T')[0],
 const version = require('./package.json').version;
 
 function build () {
-    Terser.minify(jsFiles.map(path => jetpack.read(`src/${path}`)).join('\n\n'))
+    Terser.minify(jsFiles.map(path => jetpack.read(`src/${path}`)).join('\n\n'), { ecma : 5 })
         .then(result => {
             if (result.error) {
                 console.error(result.error);

@@ -87,6 +87,7 @@
     //     [description code]
     // <<tags [listOfTags]>>
     // <<unique>>
+    // <<permanent>>
     // <</item>>
 
     Macro.add(['item', 'consumable'], {

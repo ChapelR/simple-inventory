@@ -157,21 +157,34 @@
         }
 
         has (item, amt = 1) {
+            // has amt or more (default 1) of the indicated item
             return this.data[item] >= amt;
         }
 
         hasAll () {
+            // has at least one of all of the indicated items
             const self = this;
             const items = [].slice.call(arguments).flat(Infinity);
             return items.every(i => self.has(i));
         }
 
-        pickUp (item, num) {
+        hasAny () {
+            // has at least one of any of the indicated items
+            const self = this;
+            const items = [].slice.call(arguments).flat(Infinity);
+            return items.some(i => self.has(i));
+        }
+
+        pickup (item, num) {
             const success = Inventory.change(this, item, num);
             if (success) {
                 this.emit('update');
             }
             return this;
+        }
+
+        pickUp (item, num) { // legacy
+            return this.pickUp(item, num);
         }
 
         drop (item, num) {
@@ -273,7 +286,8 @@
             description : true,
             use : true,
             transfer : null,
-            drop : true
+            drop : true,
+            dropActionText : ''
         }) {
             const self = this;
             const $list = $(document.createElement('ul')).addClass('simple-inventory-list');
@@ -293,8 +307,8 @@
                     appendMe.push(self.useLink(id));
                 }
 
-                if ((options.transfer || options.drop) && !isPermanent(id)) {
-                    self.dropLink(id, '', false, options.target);
+                if (((options.transfer && Inventory.is(options.transfer)) || options.drop) && !isPermanent(id)) {
+                    appendMe(self.dropLink(id, '', options.dropActionText, options.target || null));
                 }
 
                 return $(document.createElement('li'))
@@ -413,10 +427,12 @@
     });
 
     // <<inv $inventory [$target] [flags]>>
+    // <<take $inventory $target [flags]>>
+    // <<give $inventory $target [flags]>>
 
-    Macro.add('inv', {
+    Macro.add(['inv', 'take', 'give'], {
         handler () {
-            let target;
+            let target = null;
             const inv = getInv(this.args[0]);
             if (!inv) {
                 return this.error('first argument must be a valid inventory!');
@@ -430,7 +446,8 @@
                 description : this.args.includesAny('inspect', 'description'),
                 use : this.args.includes('use'),
                 transfer : target,
-                drop : this.args.includes('drop')
+                drop : this.args.includes('drop'),
+                dropActionText : this.name === 'inv' ? 'Drop' : this.name.toUpperFirst()
             };
 
             inv.interface(options, $(this.output));

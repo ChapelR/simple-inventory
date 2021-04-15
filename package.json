@@ -1,6 +1,6 @@
 {
   "name": "simple-inventory",
-  "version": "3.0.0",
+  "version": "3.0.0-pa1",
   "description": "Simple inventory system for Twine/SugarCube-2.",
   "main": "index.js",
   "directories": {
@@ -8,7 +8,7 @@
     "test": "test"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "node build.js"
   },
   "repository": {
     "type": "git",
@@ -18,13 +18,15 @@
     "inventory",
     "twine"
   ],
+  "private": true,
   "author": "Chapel",
   "license": "Unlicense",
   "bugs": {
     "url": "https://github.com/ChapelR/simple-inventory/issues"
   },
   "homepage": "https://github.com/ChapelR/simple-inventory#readme",
-  "dependencies": {
+  "dependencies": {},
+  "devDependencies": {
     "autoprefixer": "^9.7.4",
     "fs-jetpack": "^4.1.0",
     "git-commit-id": "^2.0.1",
