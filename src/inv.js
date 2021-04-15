@@ -15,8 +15,6 @@
         return id && typeof id === 'string' && id.trim();
     }
 
-    const events = [':use', ':pick-up', ':drop', ':transfer'];
-
     class Inventory {
         constructor(items = {}, tags = []) {
             this.data = clone(items);
@@ -102,11 +100,12 @@
             return thing instanceof Inventory; 
         }
 
-        static emit (type, inv, target = null) {
+        static emit (type, inv, target = null, item = undefined) {
             $(document).trigger({
-                type : (type[0] === ':' ? type : ':' + type) + '.simple-inventory',
+                type : ':inventory-' + type + '.simple-inventory',
                 inventory : inv,
-                target
+                target,
+                item : (type === 'use' && item) ? item : undefined
             });
         }
 
@@ -114,8 +113,8 @@
             return new Inventory (items, tags);
         }
 
-        emit (type, target = null) {
-            Inventory.emit(type, this, target);
+        emit (type, target = null, item = undefined) {
+            Inventory.emit(type, this, target, item);
             return this;
         }
 
@@ -170,7 +169,7 @@
         pickUp (item, num) {
             const success = Inventory.change(this, item, num);
             if (success) {
-                this.emit('pick-up');
+                this.emit('update');
             }
             return this;
         }
@@ -178,7 +177,7 @@
         drop (item, num) {
             const success = Inventory.change(this, item, num, true);
             if (success) {
-                this.emit('drop');
+                this.emit('update');
             }
             return this;
         }
@@ -192,7 +191,7 @@
                 const success1 = Inventory.change(this, item, num, true); // drop
                 const success2 = Inventory.change(target, item, num); // pick up
                 if (success1 || success2) {
-                    this.emit('transfer');
+                    this.emit('update');
                 }
             }
             return this;
@@ -224,9 +223,10 @@
             const item = Item.get(id);
             item.use();
             if (item.consumable) {
-                Inventory.change(this, item, 1, true);
+                Inventory.change(this, id, 1, true);
+                this.emit('update');
             }
-            this.emit('use');
+            this.emit('use', null, item);
             return this;
         }
 
@@ -263,7 +263,7 @@
                 });
         }
 
-        itemCount (id, pre = "'(&times;'", post = ")") {
+        itemCount (id, pre = "&nbsp;&times;&nbsp;", post = "&nbsp;") {
             return $(document.createElement('span'))
                 .addClass('item-count', 'simple-inventory')
                 .append( "" + pre + (this.count(id) || 0) + post );
@@ -312,25 +312,24 @@
             const $wrapper = $(document.createElement('div')).addClass('simple-inventory-wrapper');
             $wrapper.append(this.displayInventoryList(opts));
 
-            const eventList = events.map(type => type + '.gui-chapel-simple-inv').join(', ');
-            $(document).on(eventList, () => {
+            $(document).on(':inventory-update.simple-inventory.gui-built-in', () => {
                 if ($wrapper.length) {
                     $wrapper.empty().append(this.displayInventoryList(opts));
                 } else {
-                    $(document).off(eventList);
+                    $(document).off(':inventory-update.simple-inventory.gui-built-in');
                 }
             });
 
             let $target;
 
-            if (target && !(target instanceof $)) {
+            if (target && target instanceof $) {
                 $target = target;
             } else if (target) {
                 $target = $(target);
             }
 
             if ($target) {
-                $target.append($wrapper);
+                $wrapper.appendTo($target);
             }
 
             return $wrapper;
@@ -434,7 +433,7 @@
                 drop : this.args.includes('drop')
             };
 
-            inv.interface(options, this.output);
+            inv.interface(options, $(this.output));
         }
     });
 

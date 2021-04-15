@@ -8,4 +8,42 @@ Simple Inventory 3
     "ifid": "862E1FA6-35C6-4E10-BB86-D720812D1528"
 }
 
+:: StoryCaption
+HP: @@#hp;$hp@@ / 100
+
+:: StoryInit
+<<set $hp to 100>>
+
+<<consumable 'potion'>>
+    <<set $hp to Math.clamp($hp + random(20, 25), 0, 100)>>
+    <<replace '#hp'>>$hp<</replace>>
+<<description>>\
+    A basic healing potion.
+\<</consumable>>
+
+<<consumable 'poison'>>
+    <<set $hp to Math.clamp($hp - random(45), 0, 100)>>
+    <<replace '#hp'>>$hp<</replace>>
+<<description>>\
+    A deadly poison!
+\<</consumable>>
+
+<<newinv '$player'>>
+<<newinv '$chest'>>
+
+<<pickup $player 'wood' 10>>
+<<pickup $player 'stone' 15>>
+<<pickup $player 'poison' 30>>
+<<pickup $player 'potion' 30>>
+
+<<pickup $chest 'poison' 4>>
+<<pickup $chest 'potion' 3>>
+<<pickup $chest 'keyblade'>>
+
 :: Start
+<<inv $player inspect use drop>>
+
+[[Open treasure chest|chest]]
+
+:: chest
+<<inv $chest $player inspect>>

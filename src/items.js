@@ -5,7 +5,7 @@
     const defaultOpts = {
         description : '', // item description rendered in modal when inspected
         handler : null, // callback function or wiki code
-        name : '', // display name replaces id
+        displayName : '', // display name replaces id
         consumable: true, // can be used, and is consumed (dropped) on use
         unique : false, // a given inventory may only ever have one
         permanent : false // cannot be dropped or transferred once picked up
@@ -32,13 +32,6 @@
 
         // static methods
 
-        static emit (type, item) {
-            $(document).trigger({
-                type : (type[0] === ':' ? type : ':' + type) + '.simple-inventory',
-                item : item
-            });
-        }
-
         static is (thing) {
             return thing instanceof Item;
         }
@@ -63,13 +56,12 @@
 
         // instance methods
 
-        emit (type) {
-            Item.emit(type, this);
-            return this;
-        } 
-
         get name () {
-            return this.name || this.id;
+            return this.displayName || this.id;
+        }
+
+        set name (val) {
+            this.displayName = val;
         }
 
         use () {
@@ -78,12 +70,11 @@
             } else if (typeof this.handler === 'function') {
                 this.handler(this);
             }
-            this.emit('use');
             return this;
         }
 
         inspect () {
-            Dialog.setup(this.name(), 'simple-inventory item-description');
+            Dialog.setup(this.name, 'simple-inventory item-description');
             Dialog.wiki(this.description);
             Dialog.open();
         }
@@ -99,12 +90,13 @@
     // <</item>>
 
     Macro.add(['item', 'consumable'], {
-        tags: ['description', 'tags', 'unique'],
+        tags: ['description', 'tags', 'unique', 'permanent'],
         handler () {
 
             let exec = null;
             let consumable = false;
             let unique = false;
+            let permanent = false;
 
             let id, name, descr, tags;
 
@@ -125,24 +117,27 @@
             }
 
             if (this.args[1]) {
-                name = this.args[1].trim();
+                name = this.args[1];
             }
 
             if (this.payload.length > 1) {
-                const d = this.payload.find(pl => pl.name === 'descripion');
+                const d = this.payload.find(pl => pl.name === 'description');
                 const t = this.payload.find(pl => pl.name === 'tags');
                 const u = this.payload.find(pl => pl.name === 'unique');
+                const p = this.payload.find(pl => pl.name === 'permanent');
                 if (d) { descr = d.contents; }
                 if (t) { tags = t.args.flat(Infinity); }
                 if (u) { unique = true; }
+                if (p) { permanent = true; }
             }
 
             Item.add(id, {
-                name : name || '',
+                displayName : name || '',
                 description : descr || '',
                 handler : exec,
                 consumable,
-                unique
+                unique,
+                permanent
             }, tags);
         }
 
