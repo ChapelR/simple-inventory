@@ -7,6 +7,10 @@
         return Item.has(id) && Item.get(id).unique;
     }
 
+    function isPermanent (id) {
+        return Item.has(id) && Item.get(id).permanent;
+    }
+
     function isValidItemId (id) {
         return id && typeof id === 'string' && id.trim();
     }
@@ -23,12 +27,8 @@
         static change (dataOrInv, item, num = 1, invert = false) {
 
             // sanity checks
-
             if (num === 0) {
                 return; // no changes
-            }
-            if (invert) {
-                num *= -1; 
             }
             if (dataOrInv instanceof Inventory) {
                 dataOrInv = dataOrInv.data;
@@ -47,13 +47,16 @@
                 num = 1;
             }
 
-            // add items
 
-            if (Object.keys(dataOrInv).includes(item) && isUnique(item)) {
-                return; // item is unique, can't be added.
+            if (invert) {
+                num *= -1; 
             }
 
             if (num > 0) {
+                // add items
+                if (Object.keys(dataOrInv).includes(item) && isUnique(item)) {
+                    return; // item is unique, can't be added.
+                }
 
                 if (!Object.keys(dataOrInv).includes(item)) {
                     dataOrInv[item] = 0;
@@ -61,11 +64,14 @@
 
                 dataOrInv[item] += num;
 
-            // remove items
             } else {
+                // remove items
+                if (isPermanent(item)) {
+                    return; // item is permanent, can't be dropped
+                }
 
                 if (Object.keys(dataOrInv).includes(item) && typeof dataOrInv[item] === 'number') {
-                    dataOrInv[item] -= num;
+                    dataOrInv[item] += num;  // add it because it should alread be negative
                 }
 
                 if (dataOrInv[item] <= 0) {
@@ -76,6 +82,20 @@
 
 
             return dataOrInv;
+        }
+
+        static itemset (object = {}) {
+            // preps object as an item set
+            if (typeof object !== 'object') {
+                return {};
+            }
+            const ret = {};
+            Object.keys(object).forEach(prop => {
+                if (typeof object[prop] === 'number' && Number.isInteger(object[prop]) && object[prop] !== 0) {
+                    ret[prop] = object[prop];
+                }
+            });
+            return ret;
         }
 
         static is (thing) {
@@ -189,6 +209,14 @@
             return this;
         }
 
+        merge (obj) {
+            const self = this;
+            const items = Inventory.itemset(obj);
+            Object.keys(items).forEach(i => { 
+                Inventory.change(self, i, items[i]);
+            });
+        }
+
         use (id) {
             if (!Item.has(id)) {
                 return; // cannot use undefined items
@@ -261,11 +289,11 @@
 
                 appendMe.push(self.itemCount(id));
 
-                if (options.use) {
+                if (options.use && Item.has(id) && Item.get(id).handler) {
                     appendMe.push(self.useLink(id));
                 }
 
-                if (options.transfer || options.drop) {
+                if ((options.transfer || options.drop) && !isPermanent(id)) {
                     self.dropLink(id, '', false, options.target);
                 }
 

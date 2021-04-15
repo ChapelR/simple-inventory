@@ -3,11 +3,12 @@
 
     // item class
     const defaultOpts = {
-        description : '',
-        handler : null,
-        name : '',
-        consumable: true,
-        unique : false
+        description : '', // item description rendered in modal when inspected
+        handler : null, // callback function or wiki code
+        name : '', // display name replaces id
+        consumable: true, // can be used, and is consumed (dropped) on use
+        unique : false, // a given inventory may only ever have one
+        permanent : false // cannot be dropped or transferred once picked up
     };
 
     const ItemList = new Map();
