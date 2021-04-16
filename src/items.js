@@ -14,6 +14,8 @@
     const ItemList = new Map();
 
     class Item {
+        // new Item(id [, optsions] [, tags]) -> creates a new Item instance
+        // undcoumented! users should use `Item.add()`
         constructor(id = '', opts = clone(defaultOpts), tags = []) {
 
             if (!id || typeof id !== 'string') {
@@ -32,30 +34,36 @@
 
         // static methods
 
+        // Item.is(thing) -> returns true if thing is an Item instance
         static is (thing) {
             return thing instanceof Item;
         }
 
+        // Item.add(id [, definition] [, tags]) -> creates and registers a new Item instance
         static add (id, def, tags) {
             const item = new Item(id, def, tags);
             ItemList.set(id, item);
             return item;
         }
 
+        // Item.get(id) -> returns Item instance by ID
         static get (id) {
             return ItemList.get(id);
         }
 
+        // Item.has(id) -> returns true if Item with given ID exists
         static has (id) {
             return ItemList.has(id);
         }
 
+        // Item.list -> returns map of registered Item instances, indexed by ID
         static get list () {
             return ItemList;
         }
 
         // instance methods
 
+        // item#name -> item's name, which is the displayName or ID, can be set
         get name () {
             return this.displayName || this.id;
         }
@@ -64,6 +72,7 @@
             this.displayName = val;
         }
 
+        // item#use() -> runs item's usage callback
         use () {
             if (typeof this.handler === 'string') {
                 $.wiki(this.handler);
@@ -73,6 +82,7 @@
             return this;
         }
 
+        // item#inspect() -> creates a dialog with the item's description
         inspect () {
             Dialog.setup(this.name, 'simple-inventory item-description');
             Dialog.wiki(this.description);
@@ -89,7 +99,6 @@
     // <<unique>>
     // <<permanent>>
     // <</item>>
-
     Macro.add(['item', 'consumable'], {
         tags: ['description', 'tags', 'unique', 'permanent'],
         handler () {
