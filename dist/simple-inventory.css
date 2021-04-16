@@ -1,4 +1,4 @@
 /* Simple Inventory, for SugarCube 2, by Chapel
- v3.0.0-pa1, 2021-04-15, 60e4ce9ef72735d1e85effd48abffd6c508953a4 */
-;.simple-inventory-list{margin:0 0 0 4rem;padding:1rem 0;width:500px}.simple-inventory-listing{list-style:none;padding-left:1rem}.simple-inventory-listing:not(:last-child){border-bottom:1px solid #eee;margin-bottom:.3rem;padding-bottom:.3rem}.simple-inventory-listing>a,.simple-inventory-listing>span{display:inline-block;min-width:4rem}.drop-link{color:#e33}.drop-link:active,.drop-link:focus,.drop-link:hover{color:#f88}
+v3.0.0-pa2, 2021-04-16, 5d14146e58d6cdad54ccc1e4d82f68f8b873864a */
+ul.simple-inventory-list{margin:0 auto;padding:0;width:550px;border:3px solid #ddd}.simple-inventory-listing{list-style:none;padding-left:1rem}.simple-inventory-listing:not(:last-child){border-bottom:1px solid #eee;margin-bottom:.3rem;padding-bottom:.3rem}.simple-inventory-listing>a,.simple-inventory-listing>span{display:inline-block;min-width:4rem}.drop-link{color:#e33}.drop-link:active,.drop-link:focus,.drop-link:hover{color:#f88}
 /* End Simple Inventory */

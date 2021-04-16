@@ -1,0 +1,54 @@
+sugarcube-2:
+  macros:
+    # simple inventory macros
+    item:
+      container: true
+      children: 
+        - description
+        - tags
+        - unique
+        - permanent
+    
+    consumable:
+      container: true
+      children: 
+        - description
+        - tags
+        - unique
+        - permanent
+    
+    description:
+      parents:
+        -item
+        -consumable
+        
+    tags:
+      parents:
+        -item
+        -consumable
+        
+    unique:
+      parents:
+        -item
+        -consumable
+        
+    permanent:
+      parents:
+        -item
+        -consumable
+    
+    newinv: {}
+    
+    pickup: {}
+    drop: {}
+    dropall: {}
+
+    transfer: {}
+    merge: {}
+    unmerge: {}
+    
+    inv: {}
+    take : {}
+    give : {}
+    
+    # end simple inventory

@@ -31,14 +31,10 @@ HP: @@#hp;$hp@@ / 100
 <<newinv '$player'>>
 <<newinv '$chest'>>
 
-<<pickup $player 'wood' 10>>
-<<pickup $player 'stone' 15>>
-<<pickup $player 'poison' 30>>
-<<pickup $player 'potion' 30>>
+<<pickup $player 'wood' 10 'stone' 15>>
+<<pickup $player 'poison' 30 'potion' 30>>
 
-<<pickup $chest 'poison' 4>>
-<<pickup $chest 'potion' 3>>
-<<pickup $chest 'keyblade'>>
+<<pickup $chest 'poison' 4 'potion' 3 'keyblade' 1>>
 
 :: Start
 <<inv $player inspect use drop>>
@@ -46,4 +42,4 @@ HP: @@#hp;$hp@@ / 100
 [[Open treasure chest|chest]]
 
 :: chest
-<<inv $chest $player inspect>>
+<<take $chest $player inspect>>

@@ -29,7 +29,7 @@ function build () {
             result.warnings().forEach(warn => {
                 console.warn(warn.toString());
             });
-            jetpack.write('dist/simple-inventory.css', `/* Simple Inventory, for SugarCube 2, by Chapel\n v${version}, ${buildDate}, ${buildID} */\n;${result.css}\n/* End Simple Inventory */`, {atomic : true});
+            jetpack.write('dist/simple-inventory.css', `/* Simple Inventory, for SugarCube 2, by Chapel\nv${version}, ${buildDate}, ${buildID} */\n${result.css}\n/* End Simple Inventory */`, {atomic : true});
         });
 }
 

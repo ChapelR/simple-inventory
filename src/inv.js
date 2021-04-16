@@ -345,9 +345,9 @@
                 .wiki(text ? text : target ? "Give" : "Drop")
                 .ariaClick(() => {
                     if (target && Inventory.is(target)) {
-                        self.transfer(target, id);
+                        self.transfer(target, id, 1);
                     } else {
-                        self.drop(id);
+                        self.drop(id, 1);
                     }
                 });
         }
@@ -470,7 +470,8 @@
     });
 
     // <<pickup $inventory item num ...>>
-    Macro.add('pickup', {
+    // <<drop $inventory item num ...>>
+    Macro.add(['pickup', 'drop'], {
         handler () {
             const inv = getInv(this.args[0]);
             if (!inv) {
@@ -481,23 +482,19 @@
                 return this.error('no items to pick up were provided');
             }
 
-            inv.pickup(this.args.slice(1));
+            inv[this.name](this.args.slice(1));
         }
     });
 
-    // <<drop $inventory item num ...>>
-    Macro.add('drop', {
+    // <<dropall $inventory
+    Macro.add('dropall', {
         handler () {
             const inv = getInv(this.args[0]);
             if (!inv) {
                 return this.error('first argument must be a valid inventory!');
             }
 
-            if (this.args.length < 3) {
-                return this.error('no items to drop were provided');
-            }
-
-            inv.drop(this.args.slice(1));
+            inv.empty();
         }
     });
 
@@ -516,15 +513,13 @@
                 return this.error('second argument must be a valid inventory!');
             }
 
-            if (this.name === 'merge') {
-                inv.merge(target);
-            } else if (this.name === 'unmerge') {
-                inv.unmerge(target);
-            } else {
+            if (this.name === 'transfer') {
                 if (this.args.length < 4) {
                     return this.error('no items to transfer were provided');
                 }
                 inv.transfer(target, this.args.slice(2));
+            } else {
+                inv[this.name](target);
             }
         }
     });
