@@ -3,6 +3,8 @@
 
     const Item = setup.Item;
 
+    let CONFIRM = 'all';
+
     function isUnique (id) {
         return Item.has(id) && Item.get(id).unique;
     }
@@ -21,6 +23,62 @@
             this.data = clone(items);
             this.tags = tags instanceof Array ? tags : 
                 typeof tags === 'string' ? [ tags ] : [];
+        }
+
+        // confirmation settings
+        static get confirm () {
+            return CONFIRM;
+        }
+
+        static set confirm (value) {
+            if (typeof value === 'string' && value.trim().toLowerCase() === 'all') {
+                CONFIRM = 'all';
+            } else {
+                CONFIRM = !!value;
+            }
+        }
+
+        static confirmationDialog (yes = null, no = null, all = false, title = 'Alert', question = "Are you sure?") {
+            // pass the 'yes' callbacks through if no confirmation is needed
+            if (!CONFIRM && yes && typeof yes === 'function') {
+                yes();
+                return;
+            }
+            if (CONFIRM === 'all' && !all) {
+                yes();
+                return;
+            }
+
+            const CSS = {
+                display : 'inline-block',
+                float : 'right'
+            };
+
+            const $wrapper = $(document.createElement('div'));
+            const $question = $(document.createElement('p')).append(question);
+            const $buttons = $(document.createElement('div')).addClass('confirmation-buttons');
+            const $yes = $(document.createElement('button'))
+                .append('Okay')
+                .addClass('confirm-yes')
+                .css(Object.assign(CSS, { 'margin-right': '0.5rem' }));
+            const $no = $(document.createElement('button'))
+                .append('Cancel')
+                .addClass('confirm-no')
+                .css(CSS);
+
+            if (yes && typeof yes === 'function') {
+                $yes.ariaClick(yes);
+            }
+            if (no && typeof no === 'function') {
+                $no.ariaClick(no);
+            }
+
+            $buttons.append($no, $yes);
+            $wrapper.append($question, $buttons);
+
+            Dialog.setup(title, 'simple-inventory confirmation');
+            Dialog.append($wrapper);
+            Dialog.open();
         }
 
         // Inventory.change(instance, itemID, numberOfItems [, invert])
@@ -143,6 +201,15 @@
         // Inventory.create([data] [, tags]) create and return a new inventory instance
         static create (items, tags) {
             return new Inventory (items, tags);
+        }
+
+        // undocumented UI helper
+        static spacer (content) {
+            const $spacer = $(document.createElement('span')).addClass('spacer');
+            if (content) {
+                $spacer.wiki(content);
+            }
+            return $spacer;
         }
 
         // emit events
@@ -319,7 +386,7 @@
         // undocumented UI helper
         inspectLink (id, text = "Inspect", button = false) {
             return $(document.createElement(button ? 'button' : 'a'))
-                .addClass('inspect-link', 'simple-inventory')
+                .addClass('inspect-link')
                 .wiki(text)
                 .ariaClick(() => {
                     Item.get(id).inspect();
@@ -330,7 +397,7 @@
         useLink (id, text = "Use", button = false) {
             const self = this;
             return $(document.createElement(button ? 'button' : 'a'))
-                .addClass('use-link', 'simple-inventory')
+                .addClass('use-link')
                 .wiki(text)
                 .ariaClick(() => {
                     self.use(id);
@@ -341,21 +408,40 @@
         dropLink (id, text, button = false, target = null) {
             const self = this;
             return $(document.createElement(button ? 'button' : 'a'))
-                .addClass('drop-link', 'simple-inventory')
+                .addClass('drop-link')
                 .wiki(text ? text : target ? "Give" : "Drop")
                 .ariaClick(() => {
-                    if (target && Inventory.is(target)) {
-                        self.transfer(target, id, 1);
-                    } else {
-                        self.drop(id, 1);
-                    }
+                    Inventory.confirmationDialog(() => {
+                        if (target && Inventory.is(target)) {
+                            self.transfer(target, id, 1);
+                        } else {
+                            self.drop(id, 1);
+                        }
+                    }, () => { Dialog.close(); });
+                });
+        }
+
+        dropAllLink (text, button = false, target = null) {
+            const self = this;
+            return $(document.createElement(button ? 'button' : 'a'))
+                .addClass('all-link drop-link')
+                .wiki((text ? text : target ? "Give" : "Drop") + ' all')
+                .ariaClick(() => {
+                    Inventory.confirmationDialog(() => {
+                        if (target && Inventory.is(target)) {
+                            target.merge(self);
+                            self.empty();
+                        } else {
+                            self.empty();
+                        }
+                    }, () => { Dialog.close(); }, true);
                 });
         }
 
         // undocumented UI helper
         itemCount (id, pre = "&nbsp;&times;&nbsp;", post = "&nbsp;") {
             return $(document.createElement('span'))
-                .addClass('item-count', 'simple-inventory')
+                .addClass('item-count')
                 .append( "" + pre + (this.count(id) || 0) + post );
         }
 
@@ -365,6 +451,7 @@
             use : true,
             transfer : null,
             drop : true,
+            all : true,
             dropActionText : ''
         }) {
             const self = this;
@@ -384,19 +471,31 @@
                 if (options.use && Item.has(id) && Item.get(id).handler) {
                     appendMe.push(self.useLink(id));
                 } else {
-                    appendMe.push($(document.createElement('span')).addClass('spacer'));
+                    appendMe.push(Inventory.spacer());
                 }
 
                 if (((options.transfer && Inventory.is(options.transfer)) || options.drop) && !isPermanent(id)) {
                     appendMe.push(self.dropLink(id, options.dropActionText, false, options.target || null));
                 } else {
-                    appendMe.push($(document.createElement('span')).addClass('spacer'));
+                    appendMe.push(Inventory.spacer());
                 }
 
                 return $(document.createElement('li'))
                     .append(appendMe)
                     .addClass('simple-inventory-listing');
             });
+
+            if (options.all) {
+                const $all = $(document.createElement('li'))
+                    .addClass('all-listing simple-inventory-listing')
+                    .append([
+                        Inventory.spacer('&mdash;'), 
+                        Inventory.spacer(), 
+                        Inventory.spacer(), 
+                        this.dropAllLink(options.dropActionText, false, options.target || null)
+                    ]);
+                $entries.push($all);
+            }
 
             $list.append($entries);
             return $list;
@@ -527,6 +626,7 @@
     // <<inv $inventory [$target] [flags]>>
     // <<take $inventory $target [flags]>>
     // <<give $inventory $target [flags]>>
+    // flags: inspect.description, use, drop, all
     Macro.add(['inv', 'take', 'give'], {
         handler () {
             let target = null;
@@ -544,6 +644,7 @@
                 use : this.args.includes('use'),
                 transfer : target,
                 drop : this.args.includes('drop'),
+                all : this.args.includes('all'),
                 dropActionText : this.name === 'inv' ? 'Drop' : this.name.toUpperFirst()
             };
 
