@@ -25,41 +25,41 @@
     Object.assign(setup.Inventory, {
         events : {
             update : {
-                // Inventory.update.on(callback [, namespace]) -> registers event handler on update
+                // Inventory.events.update.on(callback [, namespace]) -> registers event handler on update
                 on (cb = null, ns = '') {
                     if (!validCallback(cb)) {
                         return;
                     }
                     $(document).on(types.update + ns, cb);
                 },
-                // Inventory.update.one(callback [, namespace]) -> registers single-use event handler on update
+                // Inventory.events.update.one(callback [, namespace]) -> registers single-use event handler on update
                 one (cb = null, ns = '') {
                     if (!validCallback(cb)) {
                         return;
                     }
                     $(document).one(types.update + ns, cb);
                 },
-                // Inventory.update.off([namespace]) -> removes update event handler(s)
+                // Inventory.events.update.off([namespace]) -> removes update event handler(s)
                 off (ns = '') {
                     $(document).off(types.update + ns);
                 }
             },
             use : {
-                // Inventory.use.on(callback [, namespace]) -> registers event handler on item use
+                // Inventory.events.use.on(callback [, namespace]) -> registers event handler on item use
                 on (cb = null, ns = '') {
                     if (!validCallback(cb)) {
                         return;
                     }
                     $(document).on(types.use + ns, cb);
                 },
-                // Inventory.use.one(callback [, namespace]) -> registers single-use event handler on item use
+                // Inventory.events.use.one(callback [, namespace]) -> registers single-use event handler on item use
                 one (cb = null, ns = '') {
                     if (!validCallback(cb)) {
                         return;
                     }
                     $(document).one(types.use + ns, cb);
                 },
-                // Inventory.use.off([namespace]) -> removes item use event handler(s)
+                // Inventory.events.use.off([namespace]) -> removes item use event handler(s)
                 off (ns = '') {
                     $(document).off(types.use + ns);
                 }

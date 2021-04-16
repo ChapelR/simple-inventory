@@ -4,6 +4,7 @@
     const Item = setup.Item;
 
     let CONFIRM = 'all';
+    let EMPTY_MESSAGE = '&hellip;';
 
     function isUnique (id) {
         return Item.has(id) && Item.get(id).unique;
@@ -38,47 +39,15 @@
             }
         }
 
-        static confirmationDialog (yes = null, no = null, all = false, title = 'Alert', question = "Are you sure?") {
-            // pass the 'yes' callbacks through if no confirmation is needed
-            if (!CONFIRM && yes && typeof yes === 'function') {
-                yes();
-                return;
+        // empty message
+        static get emptyMessage () {
+            return EMPTY_MESSAGE;
+        }
+
+        static set emptyMessage (value) {
+            if (typeof value === 'string') {
+                EMPTY_MESSAGE = value;
             }
-            if (CONFIRM === 'all' && !all) {
-                yes();
-                return;
-            }
-
-            const CSS = {
-                display : 'inline-block',
-                float : 'right'
-            };
-
-            const $wrapper = $(document.createElement('div'));
-            const $question = $(document.createElement('p')).append(question);
-            const $buttons = $(document.createElement('div')).addClass('confirmation-buttons');
-            const $yes = $(document.createElement('button'))
-                .append('Okay')
-                .addClass('confirm-yes')
-                .css(Object.assign(CSS, { 'margin-right': '0.5rem' }));
-            const $no = $(document.createElement('button'))
-                .append('Cancel')
-                .addClass('confirm-no')
-                .css(CSS);
-
-            if (yes && typeof yes === 'function') {
-                $yes.ariaClick(yes);
-            }
-            if (no && typeof no === 'function') {
-                $no.ariaClick(no);
-            }
-
-            $buttons.append($no, $yes);
-            $wrapper.append($question, $buttons);
-
-            Dialog.setup(title, 'simple-inventory confirmation');
-            Dialog.append($wrapper);
-            Dialog.open();
         }
 
         // Inventory.change(instance, itemID, numberOfItems [, invert])
@@ -201,15 +170,6 @@
         // Inventory.create([data] [, tags]) create and return a new inventory instance
         static create (items, tags) {
             return new Inventory (items, tags);
-        }
-
-        // undocumented UI helper
-        static spacer (content) {
-            const $spacer = $(document.createElement('span')).addClass('spacer');
-            if (content) {
-                $spacer.wiki(content);
-            }
-            return $spacer;
         }
 
         // emit events
@@ -383,156 +343,6 @@
             return this;
         }
 
-        // undocumented UI helper
-        inspectLink (id, text = "Inspect", button = false) {
-            return $(document.createElement(button ? 'button' : 'a'))
-                .addClass('inspect-link')
-                .wiki(text)
-                .ariaClick(() => {
-                    Item.get(id).inspect();
-                });
-        }
-
-        // undocumented UI helper
-        useLink (id, text = "Use", button = false) {
-            const self = this;
-            return $(document.createElement(button ? 'button' : 'a'))
-                .addClass('use-link')
-                .wiki(text)
-                .ariaClick(() => {
-                    self.use(id);
-                });
-        }
-
-        // undocumented UI helper
-        dropLink (id, text, button = false, target = null) {
-            const self = this;
-            return $(document.createElement(button ? 'button' : 'a'))
-                .addClass('drop-link')
-                .wiki(text ? text : target ? "Give" : "Drop")
-                .ariaClick(() => {
-                    Inventory.confirmationDialog(() => {
-                        if (target && Inventory.is(target)) {
-                            self.transfer(target, id, 1);
-                        } else {
-                            self.drop(id, 1);
-                        }
-                    }, () => { Dialog.close(); });
-                });
-        }
-
-        dropAllLink (text, button = false, target = null) {
-            const self = this;
-            return $(document.createElement(button ? 'button' : 'a'))
-                .addClass('all-link drop-link')
-                .wiki((text ? text : target ? "Give" : "Drop") + ' all')
-                .ariaClick(() => {
-                    Inventory.confirmationDialog(() => {
-                        if (target && Inventory.is(target)) {
-                            target.merge(self);
-                            self.empty();
-                        } else {
-                            self.empty();
-                        }
-                    }, () => { Dialog.close(); }, true);
-                });
-        }
-
-        // undocumented UI helper
-        itemCount (id, pre = "&nbsp;&times;&nbsp;", post = "&nbsp;") {
-            return $(document.createElement('span'))
-                .addClass('item-count')
-                .append( "" + pre + (this.count(id) || 0) + post );
-        }
-
-        // undocumented UI helper
-        displayInventoryList (options = {
-            description : true,
-            use : true,
-            transfer : null,
-            drop : true,
-            all : true,
-            dropActionText : ''
-        }) {
-            const self = this;
-            const $list = $(document.createElement('ul')).addClass('simple-inventory-list');
-            const $entries = this.list.map(id => {
-
-                const appendMe = [];
-
-                if (options.description && Item.has(id) && Item.get(id).description) {
-                    appendMe.push(self.inspectLink(id, Item.has(id) ? Item.get(id).name : id));
-                } else {
-                    appendMe.push($(document.createElement('span')).append(Item.has(id) ? Item.get(id).name : id).addClass('item-name'));
-                }
-
-                appendMe.push(self.itemCount(id));
-
-                if (options.use && Item.has(id) && Item.get(id).handler) {
-                    appendMe.push(self.useLink(id));
-                } else {
-                    appendMe.push(Inventory.spacer());
-                }
-
-                if (((options.transfer && Inventory.is(options.transfer)) || options.drop) && !isPermanent(id)) {
-                    appendMe.push(self.dropLink(id, options.dropActionText, false, options.target || null));
-                } else {
-                    appendMe.push(Inventory.spacer());
-                }
-
-                return $(document.createElement('li'))
-                    .append(appendMe)
-                    .addClass('simple-inventory-listing');
-            });
-
-            if (options.all) {
-                const $all = $(document.createElement('li'))
-                    .addClass('all-listing simple-inventory-listing')
-                    .append([
-                        Inventory.spacer('&mdash;'), 
-                        Inventory.spacer(), 
-                        Inventory.spacer(), 
-                        this.dropAllLink(options.dropActionText, false, options.target || null)
-                    ]);
-                $entries.push($all);
-            }
-
-            $list.append($entries);
-            return $list;
-        }
-
-        // constructs inventory interface
-        // very opinionated by necessity
-        // include resipes for different UIs in docs
-        interface (opts = {}, target = null) {
-            const self = this;
-
-            const $wrapper = $(document.createElement('div')).addClass('simple-inventory-wrapper');
-            $wrapper.append(this.displayInventoryList(opts));
-
-            $(document).on(':inventory-update.simple-inventory.gui-built-in', () => {
-                if ($wrapper.length) {
-                    $wrapper.empty().append(this.displayInventoryList(opts));
-                } else {
-                    $(document).off(':inventory-update.simple-inventory.gui-built-in');
-                }
-            });
-
-            let $target;
-
-            if (target && target instanceof $) {
-                $target = target;
-            } else if (target) {
-                $target = $(target);
-            }
-
-            if ($target) {
-                $wrapper.appendTo($target);
-            }
-
-            return $wrapper;
-        }
-
         // for SC state
         clone () {
             return new Inventory(this.data || {}, this.tags || []);
@@ -543,114 +353,6 @@
             return JSON.reviveWrapper('new setup.Inventory(' + JSON.stringify(this.data) + ', ' + JSON.stringify(this.tags)  + ')');
         }
     }
-
-    function isValidVariable (varName) {
-        return varName && typeof varName === 'string' && varName.length > 2 && (varName[0] === '$' || varName[0] === '_');
-    }
-
-    function getInv (inv) {
-        if (isValidVariable(inv)) {
-            inv = State.getVar(inv);
-        }
-        if (Inventory.is(inv)) {
-            return inv;
-        }
-    }
-
-    // <<newinv '$varName' [tags]>>
-    Macro.add('newinv', {
-        handler () {
-            const varName = this.args.raw.trim().split(' ').first().replace(/["']/g, '').trim();
-            if (!isValidVariable(varName)) {
-                return this.error('argument must be a story or temporary variable!');
-            }
-            State.setVar(varName, new Inventory({}, this.args.flat(Infinity).slice(1)));
-        }
-    });
-
-    // <<pickup $inventory item num ...>>
-    // <<drop $inventory item num ...>>
-    Macro.add(['pickup', 'drop'], {
-        handler () {
-            const inv = getInv(this.args[0]);
-            if (!inv) {
-                return this.error('first argument must be a valid inventory!');
-            }
-
-            if (this.args.length < 3) {
-                return this.error('no items to pick up were provided');
-            }
-
-            inv[this.name](this.args.slice(1));
-        }
-    });
-
-    // <<dropall $inventory
-    Macro.add('dropall', {
-        handler () {
-            const inv = getInv(this.args[0]);
-            if (!inv) {
-                return this.error('first argument must be a valid inventory!');
-            }
-
-            inv.empty();
-        }
-    });
-
-    // <<transfer $inventory $target item [num] ...>>
-    // <<merge $inventory $target>>
-    // <<unmerge $inventory $target>>
-    Macro.add(['transfer', 'merge', 'unmerge'], {
-        handler () {
-            const inv = getInv(this.args[0]);
-            if (!inv) {
-                return this.error('first argument must be a valid inventory!');
-            }
-
-            const target = getInv(this.args[1]);
-            if (!target) {
-                return this.error('second argument must be a valid inventory!');
-            }
-
-            if (this.name === 'transfer') {
-                if (this.args.length < 4) {
-                    return this.error('no items to transfer were provided');
-                }
-                inv.transfer(target, this.args.slice(2));
-            } else {
-                inv[this.name](target);
-            }
-        }
-    });
-
-    // <<inv $inventory [$target] [flags]>>
-    // <<take $inventory $target [flags]>>
-    // <<give $inventory $target [flags]>>
-    // flags: inspect.description, use, drop, all
-    Macro.add(['inv', 'take', 'give'], {
-        handler () {
-            let target = null;
-            const inv = getInv(this.args[0]);
-            if (!inv) {
-                return this.error('first argument must be a valid inventory!');
-            }
-
-            if (this.args[1] && getInv(this.args[1])) {
-                target = getInv(this.args[1]);
-            }
-
-            const options = {
-                description : this.args.includesAny('inspect', 'description'),
-                use : this.args.includes('use'),
-                transfer : target,
-                drop : this.args.includes('drop'),
-                all : this.args.includes('all'),
-                dropActionText : this.name === 'inv' ? 'Drop' : this.name.toUpperFirst()
-            };
-
-            inv.interface(options, $(this.output));
-        }
-    });
 
     setup.Inventory = Inventory;
     window.Inventory = window.Inventory || Inventory;
