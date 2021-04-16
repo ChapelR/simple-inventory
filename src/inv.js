@@ -229,7 +229,7 @@
         }
 
         // inventory#unmerge(invOrObject) -> unmerges (removes) the provided object/inventory into the inventory instance
-        mergeunmerge (obj) {
+        unmerge (obj) {
             // returns delta
             const self = this;
             const ret = {};
@@ -246,7 +246,7 @@
         }
 
         // inventory#pickup(item, amount [, item , amount. ...]) -> adds the indicated items in the indicated amounts
-        mergepickup () {
+        pickup () {
             const delta = this.merge(Inventory.parseArgList.apply(null, arguments));
             this.emit('update', { delta });
             return this;
