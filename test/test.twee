@@ -37,7 +37,7 @@ HP: @@#hp;$hp@@ / 100
 <<pickup $chest 'poison' 4 'potion' 3 'keyblade' 1>>
 
 :: Start
-<<inv $player inspect use drop all>>
+<<give $player $chest inspect all>>
 
 [[Open treasure chest|chest]]
 
