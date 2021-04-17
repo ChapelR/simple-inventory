@@ -8,6 +8,20 @@
   <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
   <link rel="stylesheet" href="//unpkg.com/docsify/lib/themes/buble.css">
   <link rel="stylesheet" href="https://twinelab.net/cdn/docsify-patch-custom.css">
+  <style>
+    .markdown-section h2 {
+        border-top: 5px solid #555;
+        padding: 1rem;
+        border-bottom: 5px solid #555;
+    }
+    .markdown-section h3 {
+        margin: 0;
+        padding: 0.8rem 0.5rem;
+    }
+    .markdown-section h3::before {
+        content: '\27A4\00a0';
+    }
+  </style>
 </head>
 <body>
   <div id="app"></div>
@@ -18,7 +32,8 @@
       loadNavbar: true,
       tabs : {
         theme : 'material'
-      }
+      },
+      maxLevel: 3
     };
   </script>
   <script src="//unpkg.com/docsify/lib/docsify.min.js" data-ga="UA-140068697-1"></script>

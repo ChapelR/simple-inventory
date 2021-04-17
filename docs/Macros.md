@@ -2,7 +2,7 @@
 
 The simple inventory system adds the following macros.
 
-## Macro: `<<newinv>>`
+### Macro: `<<newinv>>`
 
 The `<<newinv>>` macro creates and initializes a SugarCube story variable (e.g., `$var`) or temporary variable (e.g., `_var`) as an empty inventory.
 
@@ -12,13 +12,13 @@ The `<<newinv>>` macro creates and initializes a SugarCube story variable (e.g.,
 > [!TIP]
 > The [`StoryInit` special passage](http://www.motoslave.net/sugarcube/2/docs/#special-passage-storyinit) is typically the best place to initialize variables, including new inventories, though you can do so anywhere.
 
-### Syntax
+#### Syntax
 
 ```
 <<newinv variable [tags]>>
 ```
 
-### Arguments
+#### Arguments
 
 - `variable` the name of a story or temporary variable, which must start with a `$` or a `_` and otherwise follow all the [normal rules for variable names imposed by SugarCube](http://www.motoslave.net/sugarcube/2/docs/#twinescript-variables).
 - `tags` (optional) a list of tags, separated by spaces. Tags are not used by the simple inventory, but are provided to authors as a means of providing metadata to inventory instances.
@@ -26,7 +26,7 @@ The `<<newinv>>` macro creates and initializes a SugarCube story variable (e.g.,
 > [!NOTE]
 > In v2 of the simple inventory, you had to wrap variable names in quotes to pass them in. This is no longer required.
 
-### Example
+#### Example
 
 ```
 <<newinv $backpack>>
@@ -35,39 +35,39 @@ The `<<newinv>>` macro creates and initializes a SugarCube story variable (e.g.,
 <<newinv _chest "container" "loot">>
 ```
 
-## Macro: `<<pickup>>`
+### Macro: `<<pickup>>`
 
 The `<<pickup>>` macro can be used to add items to an existing inventory instance, identified by its variable.
 
-### Syntax
+#### Syntax
 
 ```
 <<pickup inventory item num [item num ...]>>
 ```
 
-### Arguments
+#### Arguments
 
 - `inventory` the name of a story or temporary variable that holds an existing inventory instance.
 - `item` and `num` are pairs of items and numbers of items to add to the inventory. You may pass in any number of these pairs, but all pairs must be complete. Even if you only want to add one of the item, you must specify `1`.
 
-### Example
+#### Example
 
 ```
 <<pickup $backpack "wood" 10 "stone" 5>>
 <<pickup $backpack "key to the airship" 1>>
 ```
 
-## Macro: `<<drop>>`
+### Macro: `<<drop>>`
 
 The `<<drop>>` macro can be used to remove items from an existing inventory instance, identified by its variable.
 
-### Syntax
+#### Syntax
 
 ```
 <<drop inventory item num [item num ...]>>
 ```
 
-### Arguments
+#### Arguments
 
 - `inventory` the name of a story or temporary variable that holds an existing inventory instance.
 - `item` and `num` are pairs of items and numbers of items to remove from the inventory. You may pass in any number of these pairs, but all pairs must be complete. Even if you only want to remove one, you must specify `1`.
@@ -78,45 +78,45 @@ The `<<drop>>` macro can be used to remove items from an existing inventory inst
 > [!WARNING]
 > If you attempt to remove an item or items that aren't present in the inventory, nothing happens and no errors or warnings will be displayed.
 
-### Example
+#### Example
 
 ```
 <<drop $backpack "wood" 10 "stone" 5>>
 <<drop $backpack "key to the airship" 1>>
 ```
 
-## Macro: `<<merge>>`
+### Macro: `<<merge>>`
 
 The `<<merge>>` macro adds all the items from the second inventory into the first inventory. **This macro causes no changes to the second inventory.**
 
-### Syntax
+#### Syntax
 
 ```
 <<merge inventory anotherInventory>>
 ```
 
-### Arguments
+#### Arguments
 
 - `inventory` the name of a story or temporary variable that holds an existing inventory instance.
 - `anotherInventory` the items in this inventory are copied over to the other inventory.
 
-### Example
+#### Example
 
 ```
 <<merge $backpack $chest>>
 ```
 
-## Macro: `<<unmerge>>`
+### Macro: `<<unmerge>>`
 
 The `<<unmerge>>` macro removes all the items present in the second inventory from the first inventory. **This macro causes no changes to the second inventory.**
 
-### Syntax
+#### Syntax
 
 ```
 <<unmerge inventory anotherInventory>>
 ```
 
-### Arguments
+#### Arguments
 
 - `inventory` the name of a story or temporary variable that holds an existing inventory instance.
 - `anotherInventory` if any of the items in this inventory are present in the first inventory,they are removed from the first inventory.
@@ -124,30 +124,30 @@ The `<<unmerge>>` macro removes all the items present in the second inventory fr
 > [!WARNING]
 > If you attempt to remove an item or items that aren't present in the inventory, nothing happens and no errors or warnings will be displayed.
 
-### Example
+#### Example
 
 ```
 <<unmerge $backpack $chest>>
 ```
 
-## Macro: `<<dropall>>`
+### Macro: `<<dropall>>`
 
 The `<<dropall>>` macro removes all the items from an inventory, emptying it.
 
-### Syntax
+#### Syntax
 
 ```
 <<dropall inventory>>
 ```
 
-### Arguments
+#### Arguments
 
 - `inventory` the name of a story or temporary variable that holds an existing inventory instance.
 
 > [!WARNING]
 > If the inventory is already empty, nothing will happen and no errors or warnings will be displayed.
 
-### Example
+#### Example
 
 ```
 <<dropall $backpack>>
@@ -157,17 +157,17 @@ The `<<dropall>>` macro removes all the items from an inventory, emptying it.
 <<dropall $chest>>
 ```
 
-## Macro: `<<transfer>>`
+### Macro: `<<transfer>>`
 
 The `<<transfer>>` takes items from one inventory and adds them to another inventory. If an item to be transferred is not present in the giving inventory, it **will not** be added to the receiving inventory!
 
-### Syntax
+#### Syntax
 
 ```
 <<transfer inventory targetInventory item num [item num ...]>>
 ```
 
-### Arguments
+#### Arguments
 
 - `inventory` the name of a story or temporary variable that holds an existing inventory instance. This is the inventory **giving** the items.
 - `targetInventory` this is the inventory that should **receive** the items.
@@ -176,18 +176,18 @@ The `<<transfer>>` takes items from one inventory and adds them to another inven
 > [!TIP]
 > To transfer all the instances of a given item, you can pair it with the value `Infinity`, like so: `<<transfer $chest $backpack 'gem' Infinity>>`.
 
-### Example
+#### Example
 
 ```
 <<transfer $backpack $storage "wood" 10 "stone" 5>>
 <<transfer _chest $backpack "gem" 1>>
 ```
 
-## Macros: `<<inv>>`, `<<take>>`, and `<<give>>`
+### Macros: `<<inv>>`, `<<take>>`, and `<<give>>`
 
 These macros can be used to show the default user-interface components for managing inventories. `<<inv>>` shows an interface where items cannot be transferred at all, only dropped, and is ideal for showing the user their own inventory. `<<take>>` and `<<give>>` show an interface where items can be transferred to a different inventory, with the associated verb: `<<take>>`  is intended for containers the player can loot, `<<give>>` is intended for containers the player can place items in. You make want to show both on the same page to let the player do both.
 
-### Syntax
+#### Syntax
 
 ```
 <<inv inventory [flags]>>
@@ -195,7 +195,7 @@ These macros can be used to show the default user-interface components for manag
 <<give inventory targetInventory [flags]>>
 ```
 
-### Arguments
+#### Arguments
 
 - `inventory` the name of a story or temporary variable that holds an existing inventory instance. This is the **giving** inventory in transfers.
 - `targetInventory` this is the inventory that should **receive** the items in transfers.
@@ -205,7 +205,7 @@ These macros can be used to show the default user-interface components for manag
   - `use` allows the player to "use" an item if it is considered a consumable, and using it will expend one of the items and cause it's use code, if any, to be run. Refer to the `<<item>>` macro below.
   - `all` shows a "Drop/Give/Take all," button at the bottom of the inventory list. 
 
-### Examples
+#### Examples
 
 ```
 <<inv $backpack>>
@@ -237,25 +237,25 @@ These macros can be used to show the default user-interface components for manag
 
 ![Giving items away!](media/give.jpg)
 
-## Macros: `<<item>>` and `<<consumable>>`
+### Macros: `<<item>>` and `<<consumable>>`
 
 These macros allow you to create item definitions. You do not need to define items unless you want to give items extra features and functionality. All items **must be** defined in your [`StoryInit` special passage](http://www.motoslave.net/sugarcube/2/docs/#special-passage-storyinit)! No exceptions! The macro won't even work outside `StoryInit`.
 
 Items feature optional child tags that can be included to designate them as having certain special properties or to provide additional item data. They can be a bit complicated to set up, so please read this section carefully and [refer to the guide](Guide.md#item-definitions) for more details.
 
-### Syntax
+#### Syntax
 
 ```
 <<item ID [name]>>[optional child tags]<</item>>
 <<consumable ID [name]>>[Usage code][optional child tags]<</consumable>>
 ```
 
-### Arguments
+#### Arguments
 
 - `ID` the item ID, which is used to refer to the item internally in your code.
 - `name` (optional) will override the ID and be displayed to the player if provided.
 
-### Optional Child Tags
+#### Optional Child Tags
 
 ```
 <<description>>[description code and content]
@@ -269,7 +269,7 @@ Items feature optional child tags that can be included to designate them as havi
 - `<<permanent>>` designates an item as **permanent**. Permanent items are items that, once in an inventory, cannot be removed. Attempts to drop or transfer the item out of the inventory will silently fail.
 - `<<tags>>` like with inventories, users may supply tags to items as metadata.
 
-### Examples
+#### Examples
 
 ```
 <<item "key_1" "Crypt Key">>
