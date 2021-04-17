@@ -211,31 +211,31 @@ These macros can be used to show the default user-interface components for manag
 <<inv $backpack>>
 ```
 
-![Basic interface](C:/Users/mason/Documents/GitHub/simple-inventory/docs/media/inv-basic.jpg)
+![Basic interface](media/inv-basic.jpg)
 
 ```
 <<inv $backpack use drop>>
 ```
 
-![Inventory with use and drop](C:/Users/mason/Documents/GitHub/simple-inventory/docs/media/inv-usedrop.jpg)
+![Inventory with use and drop](media/inv-usedrop.jpg)
 
 ```
 <<inv $backpack use drop inspect all>>
 ```
 
-![Inventory with everything](C:/Users/mason/Documents/GitHub/simple-inventory/docs/media/inv-fully-loaded.jpg)
+![Inventory with everything](media/inv-fully-loaded.jpg)
 
  ```
 <<take $chest $backpack inspect all>>
  ```
 
-![Taking from a container](C:/Users/mason/Documents/GitHub/simple-inventory/docs/media/take.jpg)
+![Taking from a container](media/take.jpg)
 
 ```
 <<give $backpack $storage inspect all>>
 ```
 
-![Giving items away!](C:/Users/mason/Documents/GitHub/simple-inventory/docs/media/give.jpg)
+![Giving items away!](media/give.jpg)
 
 ## Macros: `<<item>>` and `<<consumable>>`
 
