@@ -278,11 +278,11 @@ These default interfaces can get you started, and may even be sufficient for som
 
 ### Designing Your Own Interface
 
-You don't need to stick to the default interfaces provided, and using a `<<for>>` macro or similar, you could easily make you own variants. You can get an object containing the inventory's item/amount pairs using the `data` property.
+You don't need to stick to the default interfaces provided, and using a `<<for>>` macro or similar, you could easily make you own variants. You can get an object containing the inventory's item/amount pairs using the `table` property.
 
 ```
 <<nobr>>
-	<<for _item, _amount range $backpack.data>>
+	<<for _item, _amount range $backpack.table>>
 		<div class='item-listing'>_item (_amount)</div>
 	<</for>>
 <</nobr>>
@@ -376,10 +376,10 @@ That said, for the vast majority of use cases, simply setting these properties o
 
 ## Inventories as Arrays and Objects
 
-It can be useful to get the data present in an inventory as an array or object. As covered briefly earlier, getting an object of item/amount pairs is as simple as accessing the `data` property of an inventory instance.
+It can be useful to get the data present in an inventory as an array or object. As covered briefly earlier, getting an object of item/amount pairs is as simple as accessing the `table` property of an inventory instance.
 
 ```
-<<set _object to $backpack.data>>
+<<set _object to $backpack.table>>
 ```
 
 Caution is necessary as changes to this object **will** be reflected in the inventory!

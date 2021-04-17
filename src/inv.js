@@ -252,7 +252,7 @@
             Object.keys(items).forEach(i => { 
                 Inventory.change(self, i, items[i]);
             });
-            return obj;
+            return items;
         }
 
         // inventory#unmerge(invOrObject) -> unmerges (removes) the provided object/inventory into the inventory instance
@@ -291,6 +291,7 @@
             const delta = clone(this.data);
             this.data = {};
             this.emit('update', { delta });
+            return this;
         }
 
         // inventory#transfer(targetInv, item, amount [, item , amount. ...]) -> transfers the indicated items in the indicated amounts from 
