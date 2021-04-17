@@ -294,6 +294,9 @@ In the future, I'll have some recipes in these docs, and I hope to have more det
 
 New in v3 of the simple inventory are item definitions. If you want, you can define items to give them some additional properties. You don't have to use items definitions, as simply having items represented as strings, like in v2, works fine. But having definitions allows you to associate items with some code to "use" them, give them definitions, or even give them some special properties.
 
+> [!DANGER]
+> All items **must be** defined in your [`StoryInit` special passage](http://www.motoslave.net/sugarcube/2/docs/#special-passage-storyinit)! No exceptions! The macro won't even work outside `StoryInit`.
+
 Item definitions might look like this:
 
 ```

@@ -9,7 +9,8 @@
   },
   "scripts": {
     "build": "node build.js",
-    "demo": "tweego -o docs/demo.html test dist"
+    "demo": "tweego -o docs/demo.html test dist",
+    "docs": "docsify serve docs -o"
   },
   "repository": {
     "type": "git",
