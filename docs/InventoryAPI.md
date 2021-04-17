@@ -1,6 +1,6 @@
 # Inventory API
 
-The following describes the `Iventory` class and its properties and methods.
+The following describes the `Inventory` class and its properties and methods.
 
 ## `Inventory` Static Properties
 
@@ -56,7 +56,7 @@ Returns the created inventory instance.
 ##### Syntax
 
 ```
-Inventory.create(thing);
+Inventory.is(thing);
 ```
 
 Determines whether the passed *thing* is an inventory instance.

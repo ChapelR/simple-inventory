@@ -87,6 +87,7 @@
             Dialog.setup(this.name, 'simple-inventory item-description');
             Dialog.wiki(this.description);
             Dialog.open();
+            return this;
         }
 
     }
