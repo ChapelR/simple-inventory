@@ -307,7 +307,7 @@ Item definitions might look like this:
 <</item>>
 
 <<consumable "health potion">>
-	<<set $hp to Math.clamp($hp += 20, 0, 100)>>
+	<<set $hp to Math.clamp($hp + 20, 0, 100)>>
 <<description>>\
 	<<include "health potion description">>\
 <</consumable>>

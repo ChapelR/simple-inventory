@@ -279,7 +279,7 @@ Items feature optional child tags that can be included to designate them as havi
 <</item>>
 
 <<consumable "health potion">>
-	<<set $hp to Math.clamp($hp += 20, 0, 100)>>
+	<<set $hp to Math.clamp($hp + 20, 0, 100)>>
 <<description>>\
 	<<include "health potion description">>\
 <</consumable>>
