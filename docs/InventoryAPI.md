@@ -4,17 +4,37 @@ The following describes the `Inventory` class and its properties and methods.
 
 ## `Inventory` Static Properties
 
+### `Inventory.strings`
+
+##### ( object )
+
+Can be set by users.
+
+Controls the strings used in the default interface. The value is an object containing a property for each string.
+
+##### Values
+
+The object can contain the following properties:
+
+- `inspect` (string) **not used** in the default interface, since the user clicks on the names of items to see their descriptions, however, a link for inspecting items may be needed in the future or by users. Default: `"Inspect"`
+- `drop` (string) appears as link text when users can drop items in the interface. Default: `"Drop"`
+- `take` (string) can appear as link text when users can transfer items in the interface. Default: `"Take"`
+- `give` (string) can appear as link text when users can transfer items in the interface. Default: `"Give"`
+- `use` (string) link text for the action allowing consumables to be used. Default: `"Use"`
+- `stackPre` (string) string appears before the item stack counts. Default: `"&nbsp;&times;&nbsp;"` (that is,&nbsp;&times;&nbsp;)
+- `stackPost` (string) string appears after the item stack counts. Default: `"&nbsp;"`
+
 ### `Inventory.confirm`
 
 ##### ( string | boolean )
 
 Can be set by users.
 
-Controls whether or not to confirm certain inventory actions with the player before proceeding. Only applies to the default user-interfaces.
+Controls whether or not to confirm certain inventory actions with the player before proceeding. Only applies to the default user-interfaces. Defaults to `false`.
 
 ##### Values
 
-- `"all"` (string) (default) set to `"all"`and only Drop/Give/Take all commands will require confirmation.
+- `"all"` (string) set to `"all"`and only Drop/Give/Take all commands will require confirmation.
 - `true` (boolean) every drop/give/take action, including the all commands, will require confirmation.
 - `false` (boolean) never require confirmation.
 

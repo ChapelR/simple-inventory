@@ -3,8 +3,18 @@
 
     const Item = setup.Item;
 
-    let CONFIRM = 'all';
+    let CONFIRM = false;
     let EMPTY_MESSAGE = '&hellip;';
+    const DEFAULT_STRINGS = {
+        inspect : 'Inspect',
+        use : 'Use',
+        drop : 'Drop',
+        take : 'Take',
+        give : 'Give',
+        stackPre : '&nbsp;&times;&nbsp;',
+        stackPost : '&nbsp;'
+    };
+    let USER_STRINGS = {};
 
     function isUnique (id) {
         return Item.has(id) && Item.get(id).unique;
@@ -48,6 +58,18 @@
             if (typeof value === 'string') {
                 EMPTY_MESSAGE = value;
             }
+        }
+
+        // strings
+        static get strings () {
+            return Object.assign(clone(DEFAULT_STRINGS), USER_STRINGS); 
+        }
+
+        static set strings (val) {
+            if (typeof val !== 'object') {
+                return;
+            }
+            USER_STRINGS = clone(val);
         }
 
         // Inventory.change(instance, itemID, numberOfItems [, invert])

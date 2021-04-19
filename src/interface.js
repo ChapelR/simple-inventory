@@ -55,26 +55,28 @@
     function spacer (content) {
         const $spacer = $(document.createElement('span')).addClass('spacer');
         if (content) {
-            $spacer.wiki(content);
+            $spacer.wiki("" + content);
         }
         return $spacer;
     }
 
     // undocumented UI helper
-    function inspectLink (self, id, text = "Inspect", button = false) {
+    function inspectLink (self, id, text, button = false) {
+        text = text || Inventory.strings.inspect;
         return $(document.createElement(button ? 'button' : 'a'))
             .addClass('inspect-link')
-            .wiki(text)
+            .wiki("" + text)
             .ariaClick(() => {
                 Item.get(id).inspect();
             });
     }
 
     // undocumented UI helper
-    function useLink (self, id, text = "Use", button = false) {
+    function useLink (self, id, text, button = false) {
+        text = text || Inventory.strings.use;
         return $(document.createElement(button ? 'button' : 'a'))
             .addClass('use-link')
-            .wiki(text)
+            .wiki("" + text)
             .ariaClick(() => {
                 self.use(id);
             });
@@ -82,9 +84,10 @@
 
     // undocumented UI helper
     function dropLink (self, id, text, button = false, target = null) {
+        text = text || (!!target) ? Inventory.strings.give : Inventory.strings.drop;
         return $(document.createElement(button ? 'button' : 'a'))
             .addClass('drop-link')
-            .wiki(text ? text : target ? "Give" : "Drop")
+            .wiki("" + text)
             .ariaClick(() => {
                 confirmationDialog(() => {
                     if (target && Inventory.is(target)) {
@@ -98,9 +101,10 @@
     }
 
     function dropAllLink (self, text, button = false, target = null) {
+        text = text || (!!target) ? Inventory.strings.give : Inventory.strings.drop;
         return $(document.createElement(button ? 'button' : 'a'))
             .addClass('all-link drop-link')
-            .wiki((text ? text : target ? "Give" : "Drop") + ' all')
+            .wiki(text + ' all')
             .ariaClick(() => {
                 if (!self.isEmpty()) {
                     confirmationDialog(() => {
@@ -117,7 +121,9 @@
     }
 
     // undocumented UI helper
-    function itemCount (self, id, pre = "&nbsp;&times;&nbsp;", post = "&nbsp;") {
+    function itemCount (self, id, pre, post) {
+        pre = pre || Inventory.strings.stackPre;
+        post = post || Inventory.strings.stackPost;
         return $(document.createElement('span'))
             .addClass('item-count')
             .append( "" + pre + (self.count(id) || 0) + post );

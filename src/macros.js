@@ -167,7 +167,7 @@
                 transfer : target,
                 drop : this.args.includes('drop'),
                 all : this.args.includes('all'),
-                dropActionText : this.name === 'inv' ? 'Drop' : this.name.toUpperFirst(),
+                dropActionText : this.name === 'inv' ? 'Drop' : Inventory.strings[this.name.trim().toLowerCase()],
                 classes : `macro-${this.name}`
             };
 
