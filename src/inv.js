@@ -69,7 +69,7 @@
             if (typeof val !== 'object') {
                 return;
             }
-            USER_STRINGS = clone(val);
+            USER_STRINGS = Object.assign(USER_STRINGS, clone(val));
         }
 
         // Inventory.change(instance, itemID, numberOfItems [, invert])
