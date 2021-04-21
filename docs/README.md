@@ -5,6 +5,18 @@
 
 **SERIOUSLY, DON'T USE IT YET!!!**
 
+- [Installation](#getting-started)
+- [Guide](Guide.md)
+- [Macros](Macros.md)
+- APIs
+  - [`Inventory` API](InventoryAPI.md)
+  - [`Item` API](ItemAPI.md)
+  - [Events](EventsAPI.md)
+  - [Extensions](ExtensionsAPI.md)
+- [Issue Tracker](https://github.com/ChapelR/simple-inventory/issues)
+- [Demo](demo.html ":ignore")
+- [Source Code](https://github.com/ChapelR/simple-inventory/)
+
 Version 3 includes most of the features and functionality of v2, and adds:
 
 - Consumables. Items can be associated with SugarCube code (sort of like a widget) or a callback function that can be executed when the item is "used."
@@ -66,18 +78,18 @@ This code is dedicated to the public domain.  You **don't** need to provide cred
 
 ### I Need Help!
 
-If you're having an issue with these macros and suspect that it's operator error rather than a bug, you can still open an issue, but a faster way to get help would be to post in one of these Twine communities:
+If you're having an issue with this library and suspect that it's operator error rather than a bug, you can still open an issue, but a faster way to get help would be to post in one of these Twine communities:
 
  * [The Twine Category at IntFiction.org](https://intfiction.org/c/authoring/twine)
  * [The Official Twine Discord Server](https://discordapp.com/invite/n5dJvPp)
  * [The Unoffical Twine Subreddit](https://www.reddit.com/r/twinegames/)
 
 > [!TIP]
-> Regardless of where you seek help, you'll want to provide links to the scripts you're using for your potential answerers.  Don't expect people to know what "Chapel's fading macros" are or how they work just from that.
+> Regardless of where you seek help, you'll want to provide links this documentation or the repo for your potential answerers. 
 
 ### Donations
 
 > [!NOTE]
-> Note: I suggest donating to [Twine development](https://www.patreon.com/klembot) or [SugarCube development](https://www.patreon.com/thomasmedwards) if you really want to help out, but I'd welcome a few dollars if you feel like it.
+> Note: I suggest donating to [Twine development](https://www.patreon.com/klembot) or [SugarCube development](https://www.patreon.com/thomasmedwards) if you really want to help out, but I'd welcome a few dollars if you want!
 
 [![ko-fi](https://www.ko-fi.com/img/donate_sm.png)](https://ko-fi.com/F1F8IC35)

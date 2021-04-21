@@ -21,6 +21,7 @@ The object can contain the following properties:
 - `take` (string) can appear as link text when users can transfer items in the interface. Default: `"Take"`
 - `give` (string) can appear as link text when users can transfer items in the interface. Default: `"Give"`
 - `use` (string) link text for the action allowing consumables to be used. Default: `"Use"`
+- `stack` (string) the text used to refer to an item stack when dropping or transferring whole stacks in the default interface. Default: `"stack"`
 - `stackPre` (string) string appears before the item stack counts. Default: `"&nbsp;&times;&nbsp;"` (that is,&nbsp;&times;&nbsp;)
 - `stackPost` (string) string appears after the item stack counts. Default: `"&nbsp;"`
 
@@ -34,7 +35,8 @@ Controls whether or not to confirm certain inventory actions with the player bef
 
 ##### Values
 
-- `"all"` (string) set to `"all"`and only Drop/Give/Take all commands will require confirmation.
+- `"all"` (string) set to `"all"` and only Drop/Give/Take all commands will require confirmation.
+- `"stack"` (string) set to `"stack"` and both Drop/Give/Take stack and Drop/Give/Take all commands will require confirmation.
 - `true` (boolean) every drop/give/take action, including the all commands, will require confirmation.
 - `false` (boolean) never require confirmation.
 
@@ -208,6 +210,22 @@ Returns true if the inventory contains at least one of any of the indicated item
 
 ##### Returns ( number )
 
+### `inventory#compare()`
+
+##### Syntax
+
+```
+<inventory>.compare(itemset);
+```
+
+Returns whether the inventory contains all of the items in the itemset, in the quantities listed or greater.
+
+##### Arguments
+
+- `itemset` (inventory | object) an inventory instance or a generic object containing itemID/amount pairs.
+
+##### Returns ( boolean )
+
 ### `inventory#merge()`
 
 ##### Syntax
@@ -336,7 +354,7 @@ Can be chained.
 ##### Syntax
 
 ```
-<inventory>.transfer( function (item, amount) {
+<inventory>.iterate( function (item, amount) {
 	// code
 });
 ```

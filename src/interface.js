@@ -8,13 +8,20 @@
         return Item.has(id) && Item.get(id).permanent;
     }
 
-    function confirmationDialog (yes = null, no = null, all = false, title = 'Alert', question = "Are you sure?") {
+    function confirmationDialog (yes, no = null, type = false, title = 'Alert', question = "Are you sure?") {
+        if (!yes || typeof yes !== 'function') {
+            throw new Error('Invalid confirmation callback!');
+        }
         // pass the 'yes' callbacks through if no confirmation is needed
-        if (!Inventory.confirm && yes && typeof yes === 'function') {
+        if (!Inventory.confirm) {
             yes();
             return;
         }
-        if (Inventory.confirm === 'all' && !all) {
+        if (Inventory.confirm === 'all' && type !== 'all') {
+            yes();
+            return;
+        }
+        if (Inventory.confirm === 'stack' && !type) {
             yes();
             return;
         }
@@ -84,7 +91,7 @@
 
     // undocumented UI helper
     function dropLink (self, id, text, button = false, target = null) {
-        text = text || (!!target) ? Inventory.strings.give : Inventory.strings.drop;
+        text = text || (!!target ? Inventory.strings.give : Inventory.strings.drop);
         return $(document.createElement(button ? 'button' : 'a'))
             .addClass('drop-link')
             .wiki("" + text)
@@ -100,8 +107,25 @@
             });
     }
 
+    function dropStackLink (self, id, text, button = false, target = null) {
+        text = text || (!!target ? Inventory.strings.give : Inventory.strings.drop) + '&nbsp;' + Inventory.strings.stack;
+        return $(document.createElement(button ? 'button' : 'a'))
+            .addClass('stack-link drop-link')
+            .wiki("" + text)
+            .ariaClick(() => {
+                confirmationDialog(() => {
+                    if (target && Inventory.is(target)) {
+                        self.transfer(target, id, self.count(id));
+                    } else {
+                        self.drop(id, self.count(id));
+                    }
+                    Dialog.close();
+                }, () => { Dialog.close(); });
+            });
+    }
+
     function dropAllLink (self, text, button = false, target = null) {
-        text = text || (!!target) ? Inventory.strings.give : Inventory.strings.drop;
+        text = text || (!!target ? Inventory.strings.give : Inventory.strings.drop);
         return $(document.createElement(button ? 'button' : 'a'))
             .addClass('all-link drop-link')
             .wiki(text + ' all')
@@ -136,6 +160,7 @@
         transfer : null,
         drop : true,
         all : true,
+        stack : true,
         dropActionText : '',
         classes : ''
     }) {
@@ -162,6 +187,11 @@
 
                 if (((options.transfer && Inventory.is(options.transfer)) || options.drop) && !isPermanent(id)) {
                     appendMe.push(dropLink(self, id, options.dropActionText, false, options.target || null));
+                    if (self.count(id) > 1 && options.stack) { // drop entire stack
+                        appendMe.push(dropStackLink(self, id, options.dropActionText + '&nbsp;' + Inventory.strings.stack, false, options.target || null));
+                    } else {
+                        appendMe.push(spacer());
+                    }
                 } else {
                     appendMe.push(spacer());
                 }

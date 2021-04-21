@@ -203,7 +203,8 @@ These macros can be used to show the default user-interface components for manag
   - `drop` shows the `Drop` option allowing users to drop items (discarding them). This option only works in the `<<inv>>` variant of the macro.
   - `inspect` allows items to be "inspected," meaning users can click the item's name to see its description in a dialog box, if it has a description. Refer to the `<<item>>` macro below.
   - `use` allows the player to "use" an item if it is considered a consumable, and using it will expend one of the items and cause it's use code, if any, to be run. Refer to the `<<item>>` macro below.
-  - `all` shows a "Drop/Give/Take all," button at the bottom of the inventory list. 
+  - `stack` shows a "Drop/Give/Take stack" option at the end of each item listing with more than 1 item in it. 
+  - `all` shows a "Drop/Give/Take all" option at the bottom of the inventory list. 
 
 #### Examples
 
@@ -224,6 +225,12 @@ These macros can be used to show the default user-interface components for manag
 ```
 
 ![Inventory with everything](media/inv-fully-loaded.jpg)
+
+```
+<<inv $backpack use drop inspect stack all>>
+```
+
+![Inventory with stack option](media/stack.jpg)
 
  ```
 <<take $chest $backpack inspect all>>

@@ -190,6 +190,31 @@ In some cases, you may want to check that the player has *any* or *all* of the i
 
 The `hasAll()` method returns `true` if the inventory has at least one of **all** of the listed items, while the `hasAny()` method returns `true` if the inventory contains at least one of **any** of the listed items.
 
+In addition to the above, you can also use the `compare()` method to check if an inventory contains all of the items present in another inventory:
+
+```
+<<newinv _requiredItems>>
+<<pickup _requiredItems "eye of newt" 1 "quart of pig's blood" 4 "ounce of fairy dust" 2>>
+<<if $backpack.compare(_requireItems)>>
+	You have the necessary items to make the potion!
+<</if>>
+```
+
+The JavaScript version of the `compare()` method also allows you to give a list of items as a plain object:
+
+```javascript
+var items = {
+    "eye of newt" : 1,
+    "quart of pig's blood" : 4,
+    "ounve of fairy dust": 2
+};
+if (State.variables.backpack.compare(items)) {
+    // do something
+}
+```
+
+ This may be useful for more complicated games.
+
 ### Counting Items
 
 If you need to know how many of a given item the player has, you can use the `has()` and `count()` methods. For example:
@@ -254,6 +279,14 @@ Want to add an option to drop all items? And how about a way to inspect the item
 ```
 
 ![Inventory with everything](media/inv-fully-loaded.jpg)
+
+You may also provide the flag`stack` to allow players to drop/transfer entire stacks of items all at once:
+
+```
+<<inv $backpack use drop inspect stack all>> 
+```
+
+![Inventory with stack](media/stack.jpg)
 
 There are also two main variations of the `<<inv>>` macro, `<<give>>` and `<<take>>`. Each of these macros require you to specify an inventory to receive the dropped items from the inventory being displayed. The `Drop` wording will be changed to `Give` or `Take` depending on the macro as well. For example, let's say a player opens a treasure chest, you could show the chest's contents with the `<<take>>` macro and allow them to freely pick up the contents, adding anything taken to the `$backpack` inventory.
 

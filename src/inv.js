@@ -3,12 +3,13 @@
 
     const Item = setup.Item;
 
-    let CONFIRM = false;
+    let CONFIRM = false; // boolean or "all" or "stack"
     let EMPTY_MESSAGE = '&hellip;';
     const DEFAULT_STRINGS = {
         inspect : 'Inspect',
         use : 'Use',
         drop : 'Drop',
+        stack : 'stack',
         take : 'Take',
         give : 'Give',
         stackPre : '&nbsp;&times;&nbsp;',
@@ -44,6 +45,8 @@
         static set confirm (value) {
             if (typeof value === 'string' && value.trim().toLowerCase() === 'all') {
                 CONFIRM = 'all';
+            } else if (typeof value === 'string' && value.trim().toLowerCase() === 'stack') {
+                CONFIRM = 'stack';
             } else {
                 CONFIRM = !!value;
             }
@@ -265,6 +268,13 @@
             const self = this;
             const items = [].slice.call(arguments).flat(Infinity);
             return items.some(i => self.has(i));
+        }
+
+        // inventory#compare(invOrObject) -> returns true if the inventory contains all the items in the set
+        compare (obj) {
+            const self = this;
+            const items = Inventory.itemset(obj);
+            return Object.keys(items).every(i => self.has(i, items[i]));
         }
 
         // inventory#merge(invOrObject) -> merges the provided object/inventory into the inventory instance
