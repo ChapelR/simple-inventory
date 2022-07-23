@@ -12,6 +12,7 @@ const jsFiles = [ // order is important here
     'inv.js', 
     'interface.js', 
     'events.js', 
+    'parser.js', 
     'macros.js', 
     'ext.js'
 ];
