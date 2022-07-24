@@ -25,8 +25,8 @@ Version 3 includes most of the features and functionality of v2, and adds:
 - Item descriptions (as dialogs).
 - Item names. You can provide items with both names and IDs, using the ID in code while the name will be used for displaying it in the game.
 - Item and inventory tags. You can add tags to items and inventories as metadata.
-- Item stacking. Multiple items in an inventory can now *stack* meaning they'll take up one visual "slot" in the inventory, but will have a counter showing how many are present.
-- More robust and complete built-in UI options and components.
+- Item stacking. Duplicate items in an inventory can now *stack* meaning they'll take up one visual "slot" in the inventory, but will have a counter showing how many are present.
+- More robust built-in UI options and components.
 - A cleaned up, mostly simplified API and code structure.
 
 Most new features are optional; you don't have to define items, for example. With the exception of stacking, it's possible to use this inventory in almost exactly the same way as v2.

@@ -9,5 +9,71 @@ Simple Inventory 3 - Collectibles
 }
 
 :: StoryInit
+<<newinv $player>>
+<<set $xp to 0>>
+
+<<item "medals" "Mini Medals">>
+    Mini medals! Collect a certain number to earn rewards!
+<</item>>
+
+<<item "shinies" "Shinies">>
+    Collect shinies to earn bonus XP!
+<</item>>
+
+<<item "sword" "Cool Sword">>
+    A cool sword! A mini medal reward!
+<</item>>
+
+<<item "trophy" "Swanky Trophy">>
+    A neat trophy! A mini medal reward!
+<</item>>
+
+<<set setup.medalRewards = new Map([
+    [3, "sword"],
+    [5, "trophy"]
+])>>
+
+:: Story JavaScript [script]
+Inventory.events.update.on( function (ev) {
+    if (ev.delta && ev.delta.medals) {
+        setup.medalRewards.forEach( function (reward, required) {
+            if (!ev.inventory.has(reward) && ev.inventory.has("medals", required)) {
+                ev.inventory.pickup(reward, 1);
+            UI.alert("You collected " + required + " mini medals and earned a " + reward + "!");
+            }
+        });
+    }
+});
+
+Inventory.events.update.on( function (ev) {
+    if (ev.delta && ev.delta.shinies) {
+        State.variables.xp += 10;
+        $("#xp").empty().wiki("<<= $xp || 0>>");
+    }
+});
+
+:: StoryCaption
+XP: @@#xp;<<= $xp || 0>>@@
+
+:: StoryMenu
+<<link "Inventory">>
+    <<run Dialog.setup("Inventory", "inventory"); Dialog.wiki(Story.get("Inventory").text); Dialog.open()>>
+<</link>>
+
+:: Inventory [nobr]
+<<inv $player inspect>>
 
 :: Start
+This small recipe shows how you can create some basic collectible items. Collectibles are a great way to reward players for solving puzzles or exploring. This example has two types of collectibles: mini medals and shinies.
+
+When the player picks up a shiny, they gain 10 experience points. \
+<<link "Click here to \"find\" a shiny!">>
+    <<pickup $player "shinies" 1>>
+<</link>>
+
+When the player finds a certain amount of mini medals, they will automatically receive a reward! \
+<<link "Click here to \"find\" a mini medal!">>
+    <<pickup $player "medals" 1>>
+<</link>>
+
+Check the inventory with the link in the Story Menu on the left.
