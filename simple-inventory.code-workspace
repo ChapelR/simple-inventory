@@ -10,7 +10,8 @@
 			"docs/recipes/**": true,
 			"test/**": true,
 			"node_modules/**": true,
-			"dist/**": true
+			"dist/**": true,
+			".github/**": true
 		}
 	}
 }
