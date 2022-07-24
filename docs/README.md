@@ -1,9 +1,9 @@
 # Simple Inventory 3
- The new simple inventory.
 
-**CURRENTLY IN DEVELOPMENT! DO NOT USE!!!!**
+> [!NOTE]
+> Simple Inventory v3 is in beta right now. It should work, but there may be bugs and rough edges. Please [report any issues](https://github.com/ChapelR/simple-inventory/issues/new) you encounter!
 
-**SERIOUSLY, DON'T USE IT YET!!!**
+ The new version of my simple inventory system. No longer a part of [my macro collection](https://macros.twinelab.net/), it's now its own thing. If you need the old version, grab [an older release (v2.10.0 or lower) of my custom macro collection](https://github.com/ChapelR/custom-macros-for-sugarcube-2/releases).
 
 - [Installation](#getting-started)
 - Guides

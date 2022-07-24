@@ -1,6 +1,6 @@
 # Recipes and Examples
 
-The following are examples of common ways users may want to implement an inventory system into their game.
+The following are some basic examples of common ways to implement inventories in games. These examples are intentionally minimal and basic; real-world examples of the presented mechanics will probably require a great deal more polish.
 
 ### Collectibles
 
@@ -30,7 +30,7 @@ Key style items are very simple to create and use. Here's an example of the play
 
 ### Potions
 
-...
+Examples of some basic consumable items, like potions that can restore the player's HP.
 
 [View the twee source code.](recipes/potions/index.twee ":ignore")
 
@@ -38,7 +38,7 @@ Key style items are very simple to create and use. Here's an example of the play
 
 ### Shops
 
-...
+This recipe shows how you might handle basic buying and selling.
 
 [View the twee source code.](recipes/shop/index.twee ":ignore")
 

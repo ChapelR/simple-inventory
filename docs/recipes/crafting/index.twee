@@ -23,10 +23,10 @@ Config.ui.stowBarInitially = false;
 
 :: StoryMenu
 <<link "Materials">>
-    <<run Dialog.setup("Inventory", "inventory"); Dialog.wiki(Story.get("MaterialInventory").text); Dialog.open()>>
+    <<run Dialog.setup("Materials", "inventory"); Dialog.wiki(Story.get("MaterialInventory").text); Dialog.open()>>
 <</link>>
 <<link "Equipment">>
-    <<run Dialog.setup("Inventory", "inventory"); Dialog.wiki(Story.get("EquipmentInventory").text); Dialog.open()>>
+    <<run Dialog.setup("Equipment", "inventory"); Dialog.wiki(Story.get("EquipmentInventory").text); Dialog.open()>>
 <</link>>
 
 :: MaterialInventory 

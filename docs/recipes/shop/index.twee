@@ -9,5 +9,21 @@ Simple Inventory 3 - Shop
 }
 
 :: StoryInit
+<<newinv $player>>
+<<newinv $shop>>
+
+<<set $gold to 100>>
+
+<<set setup.prices = new Map([
+    ["gemstone", 35],
+    ["coal", 2],
+    ["iron ingot", 12],
+    ["glass shard", 5],
+    ["gold nugget", 50],
+    ["pretty stone", 3]
+])>>
+
+<<pickup $shop "coal" 10 "gold nugget" 2, "iron ingot" 5>>
+<<pickup $player "glass shard" 10 "pretty stone" 20, "gemstone" 5>>
 
 :: Start
