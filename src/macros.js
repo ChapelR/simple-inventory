@@ -61,7 +61,7 @@
                 const t = this.payload.find(pl => pl.name === 'tags');
                 const u = this.payload.find(pl => pl.name === 'unique');
                 const p = this.payload.find(pl => pl.name === 'permanent');
-                if (d) { descr = d.contents; }
+                if (d) { descr = d.contents.trim(); }
                 if (t) { tags = t.args.flat(Infinity); }
                 if (u) { unique = true; }
                 if (p) { permanent = true; }

@@ -13,18 +13,22 @@ Simple Inventory 3 - Collectibles
 <<set $xp to 0>>
 
 <<item "medals" "Mini Medals">>
+<<description>>
     Mini medals! Collect a certain number to earn rewards!
 <</item>>
 
 <<item "shinies" "Shinies">>
+<<description>>
     Collect shinies to earn bonus XP!
 <</item>>
 
 <<item "sword" "Cool Sword">>
+<<description>>
     A cool sword! A mini medal reward!
 <</item>>
 
 <<item "trophy" "Swanky Trophy">>
+<<description>>
     A neat trophy! A mini medal reward!
 <</item>>
 
@@ -34,6 +38,8 @@ Simple Inventory 3 - Collectibles
 ])>>
 
 :: Story JavaScript [script]
+Config.ui.stowBarInitially = false;
+
 Inventory.events.update.on( function (ev) {
     if (ev.delta && ev.delta.medals) {
         setup.medalRewards.forEach( function (reward, required) {
