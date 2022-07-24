@@ -31,18 +31,19 @@
     }
 
     function parseSourcePassage (psg) {
-        console.log(psg);
         if (!Story.has(psg)) {
             return {};
         }
-        console.log(psg);
         const settings = parseText(Story.get(psg).text);
-        console.log(settings);
         return settings;
     }
 
     // parse source passage and set strings
     const userSettings = parseSourcePassage(SETTINGS_PASSAGE);
+    if (userSettings.empty && typeof userSettings.empty === "string" && userSettings.empty.trim()) {
+        setup.Inventory.emptyMessage = userSettings.empty;
+        delete userSettings.empty;
+    }
     setup.Inventory.strings = userSettings || {};
 
 })();

@@ -304,3 +304,30 @@ Items feature optional child tags that can be included to designate them as havi
 <</item>>
 ```
 
+# Strings Passage
+
+You can use the special passage `inventory.strings` to adjust the default strings used in the default interfaces.
+
+To use the special passage, just create a passage titled `inventory.strings`. Inside the passage, list name value pairs, with one pair per line. Separate the name from the value with a colon.
+
+For example:
+
+```
+:: inventory.strings
+use: "Activate"
+take: "Swipe"
+```
+
+The strings you can change are:
+
+- `inspect`: **not used** in the default interface, since the user clicks on the names of items to see their descriptions, however, a link for inspecting items may be needed in the future or by users. Default: `"Inspect"`
+- `drop`: appears as link text when users can drop items in the interface. Default: `"Drop"`
+- `take`: can appear as link text when users can transfer items in the interface. Default: `"Take"`
+- `give`: can appear as link text when users can transfer items in the interface. Default: `"Give"`
+- `use`: link text for the action allowing consumables to be used. Default: `"Use"`
+- `stack`: the text used to refer to an item stack when dropping or transferring whole stacks in the default interface. Default: `"stack"`
+- `stackPre`: string appears before the item stack counts. Default: `"&nbsp;&times;&nbsp;"` (that is,&nbsp;&times;&nbsp;)
+- `stackPost`: string appears after the item stack counts. Default: `"&nbsp;"`
+- `empty`: this string appears when an empty inventory is displayed. Default: `"&hellip;"`
+
+You only need to provide the name/value pairs for the strings you wish to change in the passage. See also [the `Inventory.string` property](InventoryAPI.md#inventorystrings) and the [the `Inventory.emptyMessage` property](InventoryAPI.md#inventoryemptymessage).

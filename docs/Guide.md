@@ -12,6 +12,7 @@ The simple inventory is designed to be robust but approachable. This guide will 
   - [Counting Items](#counting-items)
 - [Player Interaction and Interfaces](#player-interaction-and-interfaces)
   - [Built-in Interfaces](#built-in-interfaces)
+  - [Changing Default Strings](#changing-default-strings)
   - [Designing Your Own Interface](#designing-your-own-interface)
 - [Item Definitions](#item-definitions)
   - [Item IDs and Names](#item-ids-and-names)
@@ -308,6 +309,40 @@ These default interfaces can get you started, and may even be sufficient for som
 
 > [!TIP]
 > The basic styling on these UI components are intended to fit with a wide variety of games and to fit it as part of the basic, unchanged SugarCube UI as well. You can keep them as is, but they're actually just a `<ul>` with a `<li>` for each item, so should be easy to style how you want if you don't like how they look!
+
+### Changing Default Strings
+
+You can change the default strings used by the built-in interfaces, for example, `Give`, `Use`, etc, to be whatever you want using either the `inventory.strings` special passage, or by using the `Inventory.strings` and `Inventory.emptyMessage` properties of the [Inventory API](InventoryAPI.md).
+
+The strings that can be changed in the special passage are as follows:
+
+- `inspect`: **not used** in the default interface, since the user clicks on the names of items to see their descriptions, however, a link for inspecting items may be needed in the future or by users. Default: `"Inspect"`
+- `drop`: appears as link text when users can drop items in the interface. Default: `"Drop"`
+- `take`: can appear as link text when users can transfer items in the interface. Default: `"Take"`
+- `give`: can appear as link text when users can transfer items in the interface. Default: `"Give"`
+- `use`: link text for the action allowing consumables to be used. Default: `"Use"`
+- `stack`: the text used to refer to an item stack when dropping or transferring whole stacks in the default interface. Default: `"stack"`
+- `stackPre`: string appears before the item stack counts. Default: `"&nbsp;&times;&nbsp;"` (that is,&nbsp;&times;&nbsp;)
+- `stackPost`: string appears after the item stack counts. Default: `"&nbsp;"`
+- `empty`: this string appears when an empty inventory is displayed. In the API, this is handled by a separate property, `Inventory.emptyMessage`, passing this value to `Inventory.strings` won't have any effect! Default: `"&hellip;"`
+
+For example, an `inventory.strings` special passage may look like this:
+
+```
+:: inventory.strings
+use: "Activate"
+take: "Swipe"
+empty: "The inventory is empty!"
+```
+
+To do the same thing with the API, the JavaScript code would look like this:
+
+```javascript
+Inventory.strings = { use : "Activate", take : "Swipe" };
+Inventory.emptyMessage = "The inventory is empty!";
+```
+
+Note that you only need to provide values for the strings you want to change; the rest will fall back to the defaults. Also, if you decide to create your own interface, you likely won't need to change these at all.
 
 ### Designing Your Own Interface
 

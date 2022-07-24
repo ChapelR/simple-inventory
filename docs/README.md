@@ -6,7 +6,9 @@
 **SERIOUSLY, DON'T USE IT YET!!!**
 
 - [Installation](#getting-started)
-- [Guide](Guide.md)
+- Guides
+  - [Guide](Guide.md)
+  - [Recipes](Recipes.md)
 - [Macros](Macros.md)
 - APIs
   - [`Inventory` API](InventoryAPI.md)

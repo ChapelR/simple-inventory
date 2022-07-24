@@ -32,7 +32,7 @@
   "bugs": {
     "url": "https://github.com/ChapelR/simple-inventory/issues"
   },
-  "homepage": "https://github.com/ChapelR/simple-inventory#readme",
+  "homepage": "https://inventory.twinelab.net/",
   "dependencies": {},
   "devDependencies": {
     "@babel/core": "^7.13.15",
