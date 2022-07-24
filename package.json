@@ -10,7 +10,13 @@
   "scripts": {
     "build": "node build.js",
     "demo": "tweego -o docs/demo.html test dist",
-    "docs": "docsify serve docs -o"
+    "docs": "docsify serve docs -o",
+    "recipe:collectibles": "tweego -o docs/recipes/collectibles.html docs/recipes/collectibles dist",
+    "recipe:crafting": "tweego -o docs/recipes/crafting.html docs/recipes/crafting dist",
+    "recipe:keys": "tweego -o docs/recipes/keys.html docs/recipes/keys dist",
+    "recipe:potions": "tweego -o docs/recipes/potions.html docs/recipes/potions dist",
+    "recipe:shop": "tweego -o docs/recipes/shop.html docs/recipes/shop dist",
+    "recipe:all": "npm run recipe:collectibles & npm run recipe:crafting & npm run recipe:keys & npm run recipe:potions & npm run recipe:shop"
   },
   "repository": {
     "type": "git",

@@ -1,0 +1,13 @@
+:: StoryTitle
+Simple Inventory 3 - Shop
+
+:: StoryData
+{
+    "format": "SugarCube",
+    "format-version": "2.36.1",
+    "ifid": "862E1FA6-35C6-4E10-BB86-D720812D1528"
+}
+
+:: StoryInit
+
+:: Start

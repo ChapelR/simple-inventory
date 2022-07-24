@@ -1,5 +1,8 @@
 - [Home](README.md)
-- [Guide](Guide.md)
+
+- Guides
+  - [Guide](Guide.md)
+  - [Recipes](Recipes.md)
 
 - [Macros](Macros.md)
 - APIs
