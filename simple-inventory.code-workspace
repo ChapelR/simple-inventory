@@ -1,0 +1,16 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"twee3LanguageTools.storyformat.current": "sugarcube-2",
+		"files.exclude": {
+			"docs/recipes/**": true,
+			"test/**": true,
+			"node_modules/**": true,
+			"dist/**": true
+		}
+	}
+}
