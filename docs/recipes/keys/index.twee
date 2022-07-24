@@ -8,6 +8,48 @@ Simple Inventory 3 - Keys
     "ifid": "862E1FA6-35C6-4E10-BB86-D720812D1528"
 }
 
+:: Story JavaScript [script]
+Config.ui.stowBarInitially = false;
+
 :: StoryInit
+<<newinv $inv>>
 
 :: Start
+You are standing in a locked room.
+
+[[The door is locked tight|Door]]
+[[There are papers strewn across the desk|Desk]]
+[[You think you see a glint of metal under the bed|Bed]]
+
+:: Bed
+<<if not $inv.has("key")>>\
+    <<pickup $inv "key" 1>>\
+    Looking under the bed, you find a key!
+<<else>>\
+    You don't see anything under the bed.
+<</if>>\
+
+[[Go back|Start]]
+
+:: Desk
+You search around, but don't see anything of use on the desk.
+
+[[Go back|Start]]
+
+:: Door
+<<if $inv.has("key")>>\
+    You try the key you found, and it unlocks the door! Yay!
+
+    [[You win!|Win]]
+<<else>>\
+    You try the door, but it's locked tight!
+
+    [[Go back|Start]]
+<</if>>
+
+:: Win 
+You win!
+
+<<button "Restart">>
+    <<run UI.restart()>>
+<</button>>

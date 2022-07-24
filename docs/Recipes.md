@@ -14,7 +14,7 @@ This recipe shows how you can create basic collectibles, and use events to autom
 
 ### Crafting
 
-...
+This recipe illustrates a very basic crafting and gathering style game.
 
 [View the twee source code.](recipes/crafting/index.twee ":ignore")
 
@@ -22,7 +22,7 @@ This recipe shows how you can create basic collectibles, and use events to autom
 
 ### Keys
 
-...
+Key style items are very simple to create and use. Here's an example of the player being able to find an important item that can be used to advance.
 
 [View the twee source code.](recipes/keys/index.twee ":ignore")
 

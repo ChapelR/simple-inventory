@@ -8,6 +8,116 @@ Simple Inventory 3 - Crafting
     "ifid": "862E1FA6-35C6-4E10-BB86-D720812D1528"
 }
 
+:: Story JavaScript [script]
+Config.ui.stowBarInitially = false;
+
 :: StoryInit
+<<newinv $materials>>
+<<newinv $equipment>>
+
+<<set setup.recipes = new Map([
+    ["axe", { wood : 3, stone :  1 }],
+    ["pickaxe", { wood : 2, stone : 2 }],
+    ["sword", { wood : 1, iron : 2 }]
+])>>
+
+:: StoryMenu
+<<link "Materials">>
+    <<run Dialog.setup("Inventory", "inventory"); Dialog.wiki(Story.get("MaterialInventory").text); Dialog.open()>>
+<</link>>
+<<link "Equipment">>
+    <<run Dialog.setup("Inventory", "inventory"); Dialog.wiki(Story.get("EquipmentInventory").text); Dialog.open()>>
+<</link>>
+
+:: MaterialInventory 
+<<inv $materials>>
+
+:: EquipmentInventory 
+<<inv $equipment>>
+
+:: CraftingUI [nobr]
+<ul>
+    <<for _item, _materials range setup.recipes>>
+        <<capture _materials _item>>
+            <li>
+                _item (Requires: <<for _mat, _num range _materials>>
+                    <<= _mat + " x" + _num + " ">>
+                <</for>>) 
+                <<if $materials.compare(_materials)>>
+                    <<button "Craft">>
+                        <<run $materials.unmerge(_materials)>>
+                        <<pickup $equipment _item 1>>
+                        <<replace "#crafting-interface">><<include "CraftingUI">><</replace>>
+                    <</button>>
+                <<else>>
+                    Not enough materials.
+                <</if>>
+            </li>
+        <</capture>>
+    <</for>>
+</ul>
+
+:: Crafting [nobr]
+<h2>Choose an item to craft:</h2>
+<div id="crafting-interface">
+    <<include "CraftingUI">>
+</div>
+<br><br>
+[[Back to the forest|Start]]
+
+:: Stones
+Stones: @@#mats;<<= $materials.count("stone")>>@@
+
+You go to gather stones.
+
+<<button "Gather by hand">>
+    <<pickup $materials "stone" 1>>
+    <<replace "#mats">><<= $materials.count("stone")>><</replace>>
+<</button>>\
+<<if $equipment.has("pickaxe")>><<button "Use the pickaxe">>
+    <<pickup $materials "stone" 2>>
+    <<replace "#mats">><<= $materials.count("stone")>><</replace>>
+<</button>><</if>>
+
+[[Back to the forest|Start]]
+
+:: Wood
+Wood: @@#mats;<<= $materials.count("wood")>>@@
+
+You go to gather some wood.
+
+<<button "Gather by hand">>
+    <<pickup $materials "wood" 1>>
+    <<replace "#mats">><<= $materials.count("wood")>><</replace>>
+<</button>>\
+<<if $equipment.has("axe")>><<button "Use the axe">>
+    <<pickup $materials "wood" 2>>
+    <<replace "#mats">><<= $materials.count("wood")>><</replace>>
+<</button>><</if>>
+
+[[Back to the forest|Start]]
+
+:: Iron
+Iron: @@#mats;<<= $materials.count("iron")>>@@
+
+You go to gather some iron.
+
+<<if $equipment.has("pickaxe")>><<button "Use the pickaxe">>
+    <<pickup $materials "iron" 1>>
+    <<replace "#mats">><<= $materials.count("iron")>><</replace>>
+<</button>><<else>>\
+    You don't have the right tools to gather iron&hellip;\
+<</if>>
+
+[[Back to the forest|Start]]
 
 :: Start
+You find yourself in a large, oddly blocky forest.
+
+[[Gather stones|Stones]]
+
+[[Gather wood|Wood]]
+
+[[Gather iron|Iron]]
+
+[[Go to the crafting table|Crafting]]
