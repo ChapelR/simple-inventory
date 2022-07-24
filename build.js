@@ -51,7 +51,7 @@ function build () {
         });
     });
 
-    postcss([ autoprefix(), cleancss() ]) // autoprefix v9 (v10 doesn't support postcss anymore) (probably don't need it at all)
+    postcss([ autoprefix(), cleancss() ]) // autoprefix v9 
         .process(cssFiles.map(path => jetpack.read(`src/${path}`)).join('\n\n'), { from : undefined })
         .then(result => {
             result.warnings().forEach(warn => {

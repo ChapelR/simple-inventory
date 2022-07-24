@@ -55,7 +55,11 @@ In most CLI compilers (excluding Twee2) you can simply include the `simple-inven
 
 ### Twine 1 and Twee2 (and a few other odd ducks)
 
-You will need to create special JavaScript and CSS passages to include the code in your project, usually by using the passage tags `script` and `stylesheet`, respectively. Refer to the documentation of your comiler for more information.
+You will need to create special JavaScript and CSS passages to include the code in your project, usually by using the passage tags `script` and `stylesheet`, respectively. Refer to the documentation of your compiler for more information.
+
+### T3LT Macro Definitions
+
+If you use the excellent [Twee 3 Language Tools extension](https://marketplace.visualstudio.com/items?itemName=cyrusfirheir.twee3-language-tools) for VSCode, which I recommend you do, then you'll probably want to provide macro definitions for the custom macros and widgets you use. Here's the [macro definition file](https://github.com/ChapelR/simple-inventory/blob/main/test/simple-inventory.twee-config.yaml) I use. It's not very detailed, but it should at least prevent the macros from showing up as errors.
 
 ## Building From Source
 
@@ -67,6 +71,14 @@ Once that's done, you can use NPM scripts to build the library or the demo/test 
 - `npm run demo`: Requires Tweego to be installed and on your path. Builds the demo file (see `test/`) and outputs it to `docs/demo.html`.
 
 ## Other Details
+
+### Contributions
+
+I welcome contributions in the form of issues or PRs on [GitHub](https://github.com/ChapelR/simple-inventory/).
+
+If you've made a cool system with Simple Inventory 3, and have the time and inclination to create a minimal version that can be used as a [recipe](Recipes.md), please consider contributing it to benefit other users!
+
+Please report bugs and errors, or typos in this documentation!
 
 ### Credit and Attribution
 
@@ -84,7 +96,7 @@ If you're having an issue with this library and suspect that it's operator error
 
  * [The Twine Category at IntFiction.org](https://intfiction.org/c/authoring/twine)
  * [The Official Twine Discord Server](https://discordapp.com/invite/n5dJvPp)
- * [The Unoffical Twine Subreddit](https://www.reddit.com/r/twinegames/)
+ * [The Unofficial Twine Subreddit](https://www.reddit.com/r/twinegames/)
 
 > [!TIP]
 > Regardless of where you seek help, you'll want to provide links this documentation or the repo for your potential answerers. 

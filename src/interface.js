@@ -186,9 +186,9 @@
                 }
 
                 if (((options.transfer && Inventory.is(options.transfer)) || options.drop) && !isPermanent(id)) {
-                    appendMe.push(dropLink(self, id, options.dropActionText, false, options.target || null));
+                    appendMe.push(dropLink(self, id, options.dropActionText, false, options.transfer || null));
                     if (self.count(id) > 1 && options.stack) { // drop entire stack
-                        appendMe.push(dropStackLink(self, id, options.dropActionText + '&nbsp;' + Inventory.strings.stack, false, options.target || null));
+                        appendMe.push(dropStackLink(self, id, options.dropActionText + '&nbsp;' + Inventory.strings.stack, false, options.transfer || null));
                     } else {
                         appendMe.push(spacer());
                     }
@@ -208,7 +208,7 @@
                         spacer('&mdash;'), 
                         spacer(), 
                         spacer(), 
-                        dropAllLink(self, options.dropActionText, false, options.target || null)
+                        dropAllLink(self, options.dropActionText, false, options.transfer || null)
                     ]);
                 $entries.push($all);
             }
@@ -225,7 +225,7 @@
     // constructs inventory interface
     // very opinionated by necessity
     // include resipes for different UIs in docs
-    Inventory.prototype.interface = function (opts = {}, target = null) {
+    Inventory.prototype.interface = function (opts = {}, el = null) {
         const self = this;
 
         const $wrapper = $(document.createElement('div')).addClass('simple-inventory-wrapper');
@@ -239,16 +239,16 @@
             }
         });
 
-        let $target;
+        let $el;
 
-        if (target && target instanceof $) {
-            $target = target;
-        } else if (target) {
-            $target = $(target);
+        if (el && el instanceof $) {
+            $el = el;
+        } else if (el) {
+            $el = $(el);
         }
 
-        if ($target) {
-            $wrapper.appendTo($target);
+        if ($el) {
+            $wrapper.appendTo($el);
         }
 
         return $wrapper;
