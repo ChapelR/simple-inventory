@@ -10,7 +10,7 @@ This recipe shows how you can create basic collectibles, and use events to autom
 
 [View the twee source code.](recipes/collectibles/index.twee ":ignore")
 
-<iframe height="400px" src="recipes/collectibles.html"></iframe>
+<div class="sc-frame"><iframe height="400px" src="recipes/collectibles.html"></iframe><span title="Open in new tab">Open in new tab.</span></div>
 
 ### Crafting
 
@@ -18,7 +18,7 @@ This recipe shows how you can create basic collectibles, and use events to autom
 
 [View the twee source code.](recipes/crafting/index.twee ":ignore")
 
-<iframe height="400px" src="recipes/crafting.html"></iframe>
+<div class="sc-frame"><iframe height="400px" src="recipes/crafting.html"></iframe><span title="Open in new tab">Open in new tab.</span></div>
 
 ### Keys
 
@@ -26,7 +26,7 @@ This recipe shows how you can create basic collectibles, and use events to autom
 
 [View the twee source code.](recipes/keys/index.twee ":ignore")
 
-<iframe height="400px" src="recipes/keys.html"></iframe>
+<div class="sc-frame"><iframe height="400px" src="recipes/keys.html"></iframe><span title="Open in new tab">Open in new tab.</span></div>
 
 ### Potions
 
@@ -34,7 +34,7 @@ This recipe shows how you can create basic collectibles, and use events to autom
 
 [View the twee source code.](recipes/potions/index.twee ":ignore")
 
-<iframe height="400px" src="recipes/potions.html"></iframe>
+<div class="sc-frame"><iframe height="400px" src="recipes/potions.html"></iframe><span title="Open in new tab">Open in new tab.</span></div>
 
 ### Shops
 
@@ -42,4 +42,4 @@ This recipe shows how you can create basic collectibles, and use events to autom
 
 [View the twee source code.](recipes/shop/index.twee ":ignore")
 
-<iframe height="400px" src="recipes/shop.html"></iframe>
+<div class="sc-frame"><iframe height="400px" src="recipes/shop.html"></iframe><span title="Open in new tab">Open in new tab.</span></div>

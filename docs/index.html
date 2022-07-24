@@ -25,7 +25,22 @@
         display: block;
         margin: 0 auto;
     }
+    .sc-frame > span {
+      display: block;
+      text-align: center;
+      padding: 0.2em 0;
+      font-size: 0.7em;
+      cursor: pointer;
+      background: #333;
+    }
+    .sc-frame iframe {
+      margin-bottom: 0;
+    }
   </style>
+  <script
+  src="https://code.jquery.com/jquery-3.6.0.min.js"
+  integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+  crossorigin="anonymous"></script>
 </head>
 <body>
   <div id="app"></div>
@@ -45,5 +60,18 @@
   <!-- Latest -->
   <script src="https://unpkg.com/docsify-plugin-flexible-alerts"></script>
   <script src="https://cdn.jsdelivr.net/npm/docsify-tabs@1"></script>
+  <script>
+    var frameLink = function (hook, vm) {
+      hook.doneEach( function () {
+        $(".sc-frame > span").on("click", function () {
+          var url = $(this).parent('.sc-frame').find("iframe").attr("src");
+          window.open(url, '_blank');
+        });
+      });
+    };
+
+    $docsify = $docsify || {};
+    $docsify.plugins = [].concat(frameLink, $docsify.plugins || []);
+  </script>
 </body>
 </html>
