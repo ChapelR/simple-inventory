@@ -1,12 +1,13 @@
 ul.simple-inventory-list {
     margin: 0 auto;
     padding: 0;
-    width: 550px;
 }
 
 .simple-inventory-listing {
     list-style: none;
     padding: 0.3rem 0.3rem 0.3rem 1rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
 }
 
 .simple-inventory-listing:nth-child(2n) {
@@ -16,7 +17,6 @@ ul.simple-inventory-list {
 .simple-inventory-listing > span, 
 .simple-inventory-listing > a {
     display: inline-block;
-    min-width: 4rem;
 }
 
 .all-listing.simple-inventory-listing {

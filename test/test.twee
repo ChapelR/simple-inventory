@@ -43,3 +43,5 @@ HP: @@#hp;$hp@@ / 100
 
 :: chest
 <<take $chest $player inspect all>>
+
+[[Go back|Start]]
