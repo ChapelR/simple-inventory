@@ -5,6 +5,7 @@
 
  The new version of my simple inventory system. No longer a part of [my macro collection](https://macros.twinelab.net/), it's now its own thing. If you need the old version, grab [an older release (v2.10.0 or lower) of my custom macro collection](https://github.com/ChapelR/custom-macros-for-sugarcube-2/releases).
 
+- [Downloads](https://github.com/ChapelR/simple-inventory/releases)
 - [Installation](#getting-started)
 - Guides
   - [Guide](Guide.md)
@@ -35,7 +36,7 @@ This new simple inventory is totally incompatible with previous versions. Updati
 
 ## Getting Started
 
-Archives will be listed on the releases page, but you can also grab them from `dist/`. Download the latest version, unzip, and add the files to your SugarCube 2 project. How you add it will differ based on the compiler you use.
+Archives will be listed on [the releases page](https://github.com/ChapelR/simple-inventory/releases), but you can also grab them [from `dist/`](https://github.com/ChapelR/simple-inventory/tree/main/dist). Download the latest version, unzip, and add the files to your SugarCube 2 project. How you add the files will differ based on the compiler you use.
 
 ### Twine 2
 
