@@ -11,6 +11,12 @@ Simple Inventory 3 - Shop
 :: Story JavaScript [script]
 Config.ui.stowBarInitially = false;
 
+:: Story Stylesheet [stylesheet]
+.shopping-interface p {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
 :: StoryInit
 <<newinv $player>>
 <<newinv $shop>>
@@ -36,8 +42,60 @@ Gold: @@#gold;<<= $gold>>@@
 
 :: widgets [widget nobr]
 <<widget "gold">>
-    <<set $gold to Match.clamp($gold + _args[0], 0, Infinity)>>
+    <<set $gold to Math.clamp($gold + _args[0], 0, Infinity)>>
     <<replace "#gold">><<= $gold>><</replace>>
+<</widget>>
+
+<<widget "buylink">>
+    <<set _item to _args[0]>>
+    <<set _amount to _args[1]>>
+    <<set _price to setup.prices.get(_item) || 1>>
+    <p @data-item="_item" class="buy-listing">
+        <span>_item</span> 
+        <span class="count">_amount</span> 
+        <span class="buy-link">
+            <<link "Buy">>
+                <<if $gold < _price>>
+                    <<run UI.alert("You don't have enough gold!")>>
+                <<else>>
+                    <<gold `-1 * _price`>>
+                    <<transfer $shop $player _item 1>>
+                    <<set _amount -->>
+                    <<if _amount > 0>>
+                        <<replace `"p.buy-listing[data-item=\"" + _item + "\"] > .count"`>>_amount<</replace>>
+                    <<else>>
+                        <<remove `"p.buy-listing[data-item=\"" + _item + "\"]"`>>
+                    <</if>>
+                <</if>>
+            <</link>>
+        </span>
+    </p>
+<</widget>>
+
+<<widget "selllink">>
+    <<set _item to _args[0]>>
+    <<set _amount to _args[1]>>
+    <<set _price to setup.prices.get(_item) || 1>>
+    <p @data-item="_item" class="sell-listing">
+        <span>_item</span> 
+        <span class="count">_amount</span> 
+        <span class="sell-link">
+            <<link "Sell">>
+                <<if $gold < _price>>
+                    <<run UI.alert("You don't have enough gold!")>>
+                <<else>>
+                    <<gold _price>>
+                    <<transfer $player $shop _item 1>>
+                    <<set _amount -->>
+                    <<if _amount > 0>>
+                        <<replace `"p.sell-listing[data-item=\"" + _item + "\"] > .count"`>>_amount<</replace>>
+                    <<else>>
+                        <<remove `"p.sell-listing[data-item=\"" + _item + "\"]"`>>
+                    <</if>>
+                <</if>>
+            <</link>>
+        </span>
+    </p>
 <</widget>>
 
 :: StoryMenu
@@ -48,12 +106,6 @@ Gold: @@#gold;<<= $gold>>@@
 :: Inventory
 <<inv $player>>
 
-:: Storage
-<h2>On hand:</h2>
-<<give $player $storage stack all>>
-<h2>In storage:</h2>
-<<take $storage $player stack all>>
-
 [[Go back|Start]]
 
 :: Start
@@ -61,6 +113,42 @@ You are at your house.
 
 Next to you is your storage locker!
 
-<<link "Open storage locker">>
-    <<goto "Storage">>
-<</link>>
+[[Open storage locker|Storage]]
+[[Go to the market|Market]]
+
+:: Storage
+<h2>On hand:</h2>
+<<give $player $storage stack all>>
+<h2>In storage:</h2>
+<<take $storage $player stack all>>
+
+:: Market
+You arrive at the market!
+
+[[Buy Items|Buy]]
+[[Sell Items|Sell]]
+[[Go home|Start]]
+
+:: Buy [nobr]
+<h2>Items for sale:</h2>
+<div class="shopping-interface">
+<<for _item, _amount range $shop.table>>
+    <<capture _item _amount>>
+        <<buylink _item _amount>>
+    <</capture>>
+<</for>>
+</div>
+<br><br>
+[[Go back|Market]]
+
+:: Sell [nobr]
+<h2>Items on hand:</h2>
+<div class="shopping-interface">
+<<for _item, _amount range $player.table>>
+    <<capture _item _amount>>
+        <<selllink _item _amount>>
+    <</capture>>
+<</for>>
+</div>
+<br><br>
+[[Go back|Market]]

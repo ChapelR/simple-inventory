@@ -1,6 +1,6 @@
 {
   "name": "simple-inventory",
-  "version": "3.0.0-b1",
+  "version": "3.0.0-beta1",
   "description": "Simple inventory system for Twine/SugarCube-2.",
   "main": "index.js",
   "directories": {
@@ -16,7 +16,8 @@
     "recipe:keys": "tweego -o docs/recipes/keys.html dist docs/recipes/keys",
     "recipe:potions": "tweego -o docs/recipes/potions.html dist docs/recipes/potions",
     "recipe:shop": "tweego -o docs/recipes/shop.html dist docs/recipes/shop",
-    "recipe:all": "npm run recipe:collectibles & npm run recipe:crafting & npm run recipe:keys & npm run recipe:potions & npm run recipe:shop"
+    "recipe:all": "npm run recipe:collectibles & npm run recipe:crafting & npm run recipe:keys & npm run recipe:potions & npm run recipe:shop",
+    "build:all": "npm run build && npm run demo & npm run recipe:all"
   },
   "repository": {
     "type": "git",
