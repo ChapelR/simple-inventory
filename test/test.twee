@@ -40,8 +40,22 @@ HP: @@#hp;$hp@@ / 100
 <<inv $player inspect drop use stack all>>
 
 [[Open treasure chest|chest]]
+[[inventory ui]]
 
 :: chest
 <<take $chest $player inspect all>>
 
 [[Go back|Start]]
+
+:: inventory ui
+<<give $player $chest inspect all>>
+
+<<inv $player>>
+
+<<inv $player use drop>>
+
+<<inv $player use drop inspect all>>
+
+<<inv $player use drop inspect stack all>>
+
+<<take $chest $player inspect all>>
