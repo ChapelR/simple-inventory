@@ -106,8 +106,6 @@ Gold: @@#gold;<<= $gold>>@@
 :: Inventory
 <<inv $player>>
 
-[[Go back|Start]]
-
 :: Start
 You are at your house.
 
@@ -121,6 +119,8 @@ Next to you is your storage locker!
 <<give $player $storage stack all>>
 <h2>In storage:</h2>
 <<take $storage $player stack all>>
+
+[[Go back|Start]]
 
 :: Market
 You arrive at the market!

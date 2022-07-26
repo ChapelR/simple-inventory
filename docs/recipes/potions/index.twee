@@ -28,7 +28,7 @@ Config.navigation.override = function (dest) {
     A basic health potion. Heals 20 HP.
 <</consumable>>
 <<consumable "potion2" "Advanced Potion">>
-    <<set $hp to Math.clamp($hp + 30, 0, 30)>>
+    <<set $hp to Math.clamp($hp + 30, 0, 100)>>
     <<replace "#hp">><<= $hp>><</replace>>
 <<description>>
     A powerful health potion. Heals 45 HP.

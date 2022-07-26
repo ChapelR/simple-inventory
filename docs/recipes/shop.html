@@ -187,9 +187,7 @@ Config.ui.stowBarInitially = false;</script><tw-passagedata pid="1" name="StoryI
     &lt;/p&gt;
 &lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="4" name="StoryMenu" tags="" position="475,100" size="100,100">&lt;&lt;link &quot;Inventory&quot;&gt;&gt;
     &lt;&lt;run Dialog.setup(&quot;Inventory&quot;, &quot;inventory&quot;); Dialog.wiki(Story.get(&quot;Inventory&quot;).text); Dialog.open()&gt;&gt;
-&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="5" name="Inventory" tags="" position="600,100" size="100,100">&lt;&lt;inv $player&gt;&gt;
-
-[[Go back|Start]]</tw-passagedata><tw-passagedata pid="6" name="Start" tags="" position="725,100" size="100,100">You are at your house.
+&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="5" name="Inventory" tags="" position="600,100" size="100,100">&lt;&lt;inv $player&gt;&gt;</tw-passagedata><tw-passagedata pid="6" name="Start" tags="" position="725,100" size="100,100">You are at your house.
 
 Next to you is your storage locker!
 
@@ -197,7 +195,9 @@ Next to you is your storage locker!
 [[Go to the market|Market]]</tw-passagedata><tw-passagedata pid="7" name="Storage" tags="" position="850,100" size="100,100">&lt;h2&gt;On hand:&lt;/h2&gt;
 &lt;&lt;give $player $storage stack all&gt;&gt;
 &lt;h2&gt;In storage:&lt;/h2&gt;
-&lt;&lt;take $storage $player stack all&gt;&gt;</tw-passagedata><tw-passagedata pid="8" name="Market" tags="" position="975,100" size="100,100">You arrive at the market!
+&lt;&lt;take $storage $player stack all&gt;&gt;
+
+[[Go back|Start]]</tw-passagedata><tw-passagedata pid="8" name="Market" tags="" position="975,100" size="100,100">You arrive at the market!
 
 [[Buy Items|Buy]]
 [[Sell Items|Sell]]

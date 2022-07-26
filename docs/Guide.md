@@ -465,7 +465,7 @@ You can also get the inventory's content as an array by using either the `array`
 There is also an `iterate()` method which can be used similar to how you might use a `forEach()` method:
 
 ```javascript
-State.temproary.example.iterate( function (item, amount) {
+State.temporary.example.iterate( function (item, amount) {
     console.log('item', 'amount');
 }); // => gem 3, pearl 1
 ```
