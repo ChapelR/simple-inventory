@@ -63,6 +63,27 @@
 
         // instance methods
 
+        // tags
+        get tags () {
+            // return tags array (editable)
+            return this.tags;
+        }
+        
+        hasTag (tag) {
+            // has the indicated tag
+            return this.tags.includes(tag);
+        }
+
+        hasAllTags () {
+            // has all the indicated tags
+            return this.tags.includesAll([].slice.call(arguments).flat(Infinity));
+        }
+
+        hasAnyTags () {
+            // has any of the indicated tags
+            return this.tags.includesAny([].slice.call(arguments).flat(Infinity));
+        }
+
         // item#name -> item's name, which is the displayName or ID, can be set
         get name () {
             return this.displayName || this.id;

@@ -240,6 +240,27 @@
             return this.data;
         }
 
+        // tags
+        get tags () {
+            // return tags array (editable)
+            return this.tags;
+        }
+        
+        hasTag (tag) {
+            // has the indicated tag
+            return this.tags.includes(tag);
+        }
+
+        hasAllTags () {
+            // has all the indicated tags
+            return this.tags.includesAll([].slice.call(arguments).flat(Infinity));
+        }
+
+        hasAnyTags () {
+            // has any of the indicated tags
+            return this.tags.includesAny([].slice.call(arguments).flat(Infinity));
+        }
+
         // inventory#count(itemID) -> returns stack of items in the inventory
         count (id) {
             if (!id) {
