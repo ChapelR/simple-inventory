@@ -131,6 +131,14 @@ Cannot be set by users.
 
 Returns the number of unique items in the inventory. Each type of item is only counted once, regardless of the quantity.
 
+### `inventory#tags`
+
+##### ( array )
+
+Cannot be set by users.
+
+Returns the array of tags.
+
 ## `Inventory` Instance Methods
 
 ### `inventory#count()`
@@ -391,6 +399,54 @@ Can be chained.
 ##### Returns ( `this` )
 
 Can be chained.
+
+### `inventory#hasTag()`
+
+##### Syntax
+
+```
+<inventory>.hasTag(tag)
+```
+
+##### Arguments 
+
+- `tag` (string) a tag to check for  
+
+Returns whether the inventory has the indicated tag.
+
+##### Returns ( boolean )
+
+### `inventory#hasAllTags()`
+
+##### Syntax
+
+```
+<inventory>.hasAllTags(tagList)
+```
+
+##### Arguments 
+
+- `tagList` (string | string array) a list of tags to check for; can be strings passed as individual arguments, an array of strings, or any combination thereof
+
+Returns whether the inventory has **all of** the indicated tag(s).
+
+##### Returns ( boolean )
+
+### `inventory#hasAnyTags()`
+
+##### Syntax
+
+```
+<inventory>.hasAnyTags(tagList)
+```
+
+##### Arguments 
+
+- `tagList` (string | string array) a list of tags to check for; can be strings passed as individual arguments, an array of strings, or any combination thereof
+
+Returns whether the inventory has **any of** the indicated tag(s).
+
+##### Returns ( boolean )
 
 ### `inventory#clone()`
 

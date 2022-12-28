@@ -33,7 +33,7 @@
         // new Inventory([data] [, tags])
         constructor(items = {}, tags = []) {
             this.data = clone(items);
-            this.tags = tags instanceof Array ? tags : 
+            this._tags = tags instanceof Array ? tags : 
                 typeof tags === 'string' ? [ tags ] : [];
         }
 
@@ -243,22 +243,22 @@
         // tags
         get tags () {
             // return tags array (editable)
-            return this.tags;
+            return this._tags;
         }
         
         hasTag (tag) {
             // has the indicated tag
-            return this.tags.includes(tag);
+            return this._tags.includes(tag);
         }
 
         hasAllTags () {
             // has all the indicated tags
-            return this.tags.includesAll([].slice.call(arguments).flat(Infinity));
+            return this._tags.includesAll([].slice.call(arguments).flat(Infinity));
         }
 
         hasAnyTags () {
             // has any of the indicated tags
-            return this.tags.includesAny([].slice.call(arguments).flat(Infinity));
+            return this._tags.includesAny([].slice.call(arguments).flat(Infinity));
         }
 
         // inventory#count(itemID) -> returns stack of items in the inventory
@@ -399,12 +399,12 @@
 
         // for SC state
         clone () {
-            return new Inventory(this.data || {}, this.tags || []);
+            return new Inventory(this.data || {}, this._tags || []);
         }
 
         // for SC state
         toJSON () {
-            return JSON.reviveWrapper('new setup.Inventory(' + JSON.stringify(this.data) + ', ' + JSON.stringify(this.tags)  + ')');
+            return JSON.reviveWrapper('new setup.Inventory(' + JSON.stringify(this.data) + ', ' + JSON.stringify(this._tags)  + ')');
         }
     }
 

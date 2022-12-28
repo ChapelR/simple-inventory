@@ -105,6 +105,14 @@ Replaces the item's ID in the user-interfaces.
 
 Can be set to any string value.
 
+### `item#tags`
+
+##### ( array )
+
+Cannot be set by users.
+
+Returns the array of tags.
+
 ## `Item` Instance Methods
 
 ### `item#use()`
@@ -137,3 +145,51 @@ Creates a dialog box and renders the item's description into it.
 ##### Returns ( `this` )
 
 Can be chained.
+
+### `item#hasTag()`
+
+##### Syntax
+
+```
+<item>.hasTag(tag)
+```
+
+##### Arguments 
+
+- `tag` (string) a tag to check for  
+
+Returns whether the item has the indicated tag.
+
+##### Returns ( boolean )
+
+### `item#hasAllTags()`
+
+##### Syntax
+
+```
+<item>.hasAllTags(tagList)
+```
+
+##### Arguments 
+
+- `tagList` (string | string array) a list of tags to check for; can be strings passed as individual arguments, an array of strings, or any combination thereof
+
+Returns whether the item has **all of** the indicated tag(s).
+
+##### Returns ( boolean )
+
+### `item#hasAnyTags()`
+
+##### Syntax
+
+```
+<item>.hasAnyTags(tagList)
+```
+
+##### Arguments 
+
+- `tagList` (string | string array) a list of tags to check for; can be strings passed as individual arguments, an array of strings, or any combination thereof
+
+Returns whether the item has **any of** the indicated tag(s).
+
+##### Returns ( boolean )
