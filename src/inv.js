@@ -243,7 +243,11 @@
         // tags
         get tags () {
             // return tags array (editable)
-            return this.tags;
+            return this._tags;
+        }
+
+        set tags(value) {
+            this._tags = value;
         }
         
         hasTag (tag) {
