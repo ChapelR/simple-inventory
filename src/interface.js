@@ -144,13 +144,18 @@
             });
     }
 
-    // undocumented UI helper
+    // itemCount(itemID, prefix, postfix) -> returns stack tallycount
     function itemCount (self, id, pre, post) {
+        let tally = $(document.createElement('span'));
+        let cnt = self.count(id);
+
         pre = pre || Inventory.strings.stackPre;
         post = post || Inventory.strings.stackPost;
-        return $(document.createElement('span'))
-            .addClass('item-count')
-            .append( "" + pre + (self.count(id) || 0) + post );
+        
+        if (cnt == 1) tally.addClass('item-count single');
+        else tally.addClass('item-count multi');
+        
+        return tally.append( "" + pre + (cnt || 0) + post );
     }
 
     // undocumented UI helper
