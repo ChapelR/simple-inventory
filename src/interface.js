@@ -201,9 +201,12 @@
                     appendMe.push(spacer());
                 }
 
+                let iid = id.normalize().toLowerCase().replace(/\s+/g, '-');
+
                 return $(document.createElement('li'))
                     .append(appendMe)
-                    .addClass('simple-inventory-listing');
+                    .addClass('simple-inventory-listing')
+                    .attr('data-item-id', iid);
             });
 
             if (options.all) {
