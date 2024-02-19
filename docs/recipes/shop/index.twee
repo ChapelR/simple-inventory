@@ -33,7 +33,7 @@ Config.ui.stowBarInitially = false;
     ["pretty stone", 3]
 ])>>
 
-<<pickup $shop "coal" 10 "gold nugget" 2, "iron ingot" 5>>
+<<pickup $shop "coal" 10 "gold nugget" 2 "iron ingot" 5>>
 <<pickup $storage "iron ingot" 1 "glass shard" 20>>
 <<pickup $player "glass shard" 10 "pretty stone" 20, "gemstone" 5>>
 
@@ -54,20 +54,22 @@ Gold: @@#gold;<<= $gold>>@@
         <span>_item</span> 
         <span class="count">_amount</span> 
         <span class="buy-link">
-            <<link "Buy">>
-                <<if $gold < _price>>
-                    <<run UI.alert("You don't have enough gold!")>>
-                <<else>>
-                    <<gold `-1 * _price`>>
-                    <<transfer $shop $player _item 1>>
-                    <<set _amount -->>
-                    <<if _amount > 0>>
-                        <<replace `"p.buy-listing[data-item=\"" + _item + "\"] > .count"`>>_amount<</replace>>
+            <<capture _item, _amount, _price>>
+                <<link "Buy">>
+                    <<if $gold < _price>>
+                        <<run UI.alert("You don't have enough gold!")>>
                     <<else>>
-                        <<remove `"p.buy-listing[data-item=\"" + _item + "\"]"`>>
+                        <<gold `-1 * _price`>>
+                        <<transfer $shop $player _item 1>>
+                        <<set _amount -->>
+                        <<if _amount > 0>>
+                            <<replace `"p.buy-listing[data-item=\"" + _item + "\"] > .count"`>>_amount<</replace>>
+                        <<else>>
+                            <<remove `"p.buy-listing[data-item=\"" + _item + "\"]"`>>
+                        <</if>>
                     <</if>>
-                <</if>>
-            <</link>>
+                <</link>>
+            <</capture>>
         </span>
     </p>
 <</widget>>
@@ -80,10 +82,8 @@ Gold: @@#gold;<<= $gold>>@@
         <span>_item</span> 
         <span class="count">_amount</span> 
         <span class="sell-link">
-            <<link "Sell">>
-                <<if $gold < _price>>
-                    <<run UI.alert("You don't have enough gold!")>>
-                <<else>>
+            <<capture _item, _amount, _price>>
+                <<link "Sell">>
                     <<gold _price>>
                     <<transfer $player $shop _item 1>>
                     <<set _amount -->>
@@ -92,8 +92,8 @@ Gold: @@#gold;<<= $gold>>@@
                     <<else>>
                         <<remove `"p.sell-listing[data-item=\"" + _item + "\"]"`>>
                     <</if>>
-                <</if>>
-            <</link>>
+                <</link>>
+            <</capture>>
         </span>
     </p>
 <</widget>>
@@ -133,9 +133,7 @@ You arrive at the market!
 <h2>Items for sale:</h2>
 <div class="shopping-interface">
 <<for _item, _amount range $shop.table>>
-    <<capture _item _amount>>
-        <<buylink _item _amount>>
-    <</capture>>
+    <<buylink _item _amount>>
 <</for>>
 </div>
 <br><br>
@@ -145,9 +143,7 @@ You arrive at the market!
 <h2>Items on hand:</h2>
 <div class="shopping-interface">
 <<for _item, _amount range $player.table>>
-    <<capture _item _amount>>
-        <<selllink _item _amount>>
-    <</capture>>
+    <<selllink _item _amount>>
 <</for>>
 </div>
 <br><br>

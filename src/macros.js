@@ -5,7 +5,7 @@
     const Inventory = setup.Inventory;
 
     function isValidVariable (varName) {
-        return varName && typeof varName === 'string' && varName.length > 2 && (varName[0] === '$' || varName[0] === '_');
+        return varName && typeof varName === 'string' && varName.length >= 2 && (varName[0] === '$' || varName[0] === '_');
     }
 
     function getInv (inv) {
