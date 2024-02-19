@@ -403,6 +403,8 @@ An item must have an ID, and can optionally have a name. An ID is used internall
 
 If a name is not given, the ID is used as the name. Likewise, items without definitions don't have names and must always be referred to and displayed by their IDs.
 
+All rows of the default user-interface components expose the ID via the `data-item-id` HTML attribute.
+
 ### Item Descriptions
 
 Item descriptions can contain any amount of code, and are displayed in dialog boxes when the item is inspected. If the `inspect` flag is passed to the `<<inv>>` macro (or similar), players can inspect items by clicking on their names.
@@ -430,6 +432,8 @@ If the player has the item it will be used and one will be dropped, as normal. I
 	No health potions...
 <</if>>
 ```
+
+In the default user-interface components, all tallycounts wich represent more than one unit of the same item have the `.item-count.multi` CSS classes, otherwise `.item-count.single` to signify that there is only one unit left.
 
 ### Unique and Permanent Items
 
