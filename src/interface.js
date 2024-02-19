@@ -91,7 +91,12 @@
 
     // undocumented UI helper
     function dropLink (self, id, text, button = false, target = null) {
-        text = text || (!!target ? Inventory.strings.give : Inventory.strings.drop);
+        if (String(text).toLowerCase().trim() === "give" || !!target) {
+            text = Inventory.strings.give
+        } else if (!text || String(text).toLowerCase().trim() === "drop") {
+            text = Inventory.strings.drop;
+        }
+
         return $(document.createElement(button ? 'button' : 'a'))
             .addClass('drop-link')
             .wiki("" + text)
@@ -108,7 +113,13 @@
     }
 
     function dropStackLink (self, id, text, button = false, target = null) {
-        text = text || (!!target ? Inventory.strings.give : Inventory.strings.drop) + '&nbsp;' + Inventory.strings.stack;
+        if (String(text).toLowerCase().trim() === "give" || !!target) {
+            text = Inventory.strings.give
+        } else if (!text || String(text).toLowerCase().trim() === "drop") {
+            text = Inventory.strings.drop;
+        }
+        text = text + '&nbsp;' + Inventory.strings.stack;
+
         return $(document.createElement(button ? 'button' : 'a'))
             .addClass('stack-link drop-link')
             .wiki("" + text)
@@ -125,7 +136,12 @@
     }
 
     function dropAllLink (self, text, button = false, target = null) {
-        text = text || (!!target ? Inventory.strings.give : Inventory.strings.drop);
+        if (String(text).toLowerCase().trim() === "give" || !!target) {
+            text = Inventory.strings.give
+        } else if (!text || String(text).toLowerCase().trim() === "drop") {
+            text = Inventory.strings.drop;
+        }
+        
         return $(document.createElement(button ? 'button' : 'a'))
             .addClass('all-link drop-link')
             .wiki(text + ' all')
@@ -188,7 +204,7 @@
                 if (((options.transfer && Inventory.is(options.transfer)) || options.drop) && !isPermanent(id)) {
                     appendMe.push(dropLink(self, id, options.dropActionText, false, options.transfer || null));
                     if (self.count(id) > 1 && options.stack) { // drop entire stack
-                        appendMe.push(dropStackLink(self, id, options.dropActionText + '&nbsp;' + Inventory.strings.stack, false, options.transfer || null));
+                        appendMe.push(dropStackLink(self, id, options.dropActionText, false, options.transfer || null));
                     } else {
                         appendMe.push(spacer());
                     }
