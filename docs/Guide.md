@@ -20,6 +20,7 @@ The simple inventory is designed to be robust but approachable. This guide will 
   - [Consumables and Using Items](#consumables-and-using-items)
   - [Unique and Permanent Items](#unique-and-permanent-items)
 - [Inventories as Arrays and Objects](#inventories-as-arrays-and-objects)
+- [Inventory and Item Tags](#inventory-and-item-tags)
 - [Inventory Events](#inventory-events)
 
 ## Creating an Inventory
@@ -433,7 +434,7 @@ If the player has the item it will be used and one will be dropped, as normal. I
 <</if>>
 ```
 
-In the default user-interface components, all tallycounts wich represent more than one unit of the same item have the `.item-count.multi` CSS classes, otherwise `.item-count.single` to signify that there is only one unit left.
+In the default user-interface components, all tally counts which represent more than one unit of the same item have the `.item-count.multi` CSS classes, otherwise `.item-count.single` to signify that there is only one unit left.
 
 ### Unique and Permanent Items
 
@@ -472,6 +473,63 @@ There is also an `iterate()` method which can be used similar to how you might u
 State.temporary.example.iterate( function (item, amount) {
     console.log('item', 'amount');
 }); // => gem 3, pearl 1
+```
+
+## Inventory and Item Tags
+
+Both inventory and item instances can have **tags**, similar to how passages can have tags. Tags can be used to add a tiny bit of metadata to items or inventories. You can assign tags when you create an inventory or item instance.
+
+For example, the following inventories and items would have the tags `tag-1`, `tag-2`, and `tag-3`.
+
+```
+<<newinv $backpack "tag-1" "tag-2" "tag-3">>
+
+<<set $backpack to Inventory.create("tag-1", "tag-2", "tag-3")>>
+
+<<item "key_1" "Crypt Key">>
+<<tags "tag-1" "tag-2" "tag-3">>
+<<description>>\
+	An old, rusty key with a skull shape on it. Spoooooky.\
+<<unique>>
+<</item>>
+
+<<run Item.add("key_1", {
+  displayName : "Crypt Key",
+  description : "An old, rusty key with a skull shape on it. Spoooooky.",
+  unique : true
+}, ["tag-1", "tag-2", "tag-3"])>>
+```
+
+You can provide any number of tags, but all tags must be strings. Tags can be used to add additional basic features or to label items or inventories. For example, for a basic equipment system, you could use tags to identify which "slot" each item goes in. You could also label certain types of items as contraband, or mark certain inventories as belonging to an NPC.
+
+### Checking Tags
+
+You can check inventory and items tags using the `hasTag()`, `hasAnyTags()`, and `hasAllTags()` methods. Both inventory and item instances have the same tag methods. You can also retrieve an inventory or item's tags as an array using the `tags` getter, e.g. `$inventory.tags` or `Item.get(_item).tags`. You cannot set the tags property, but you can mutate the tags array, however keep in mind that only inventory instances are stateful.
+
+```
+<<if $chest.hasTag("owned")>>
+  This chest is owned by an NPC! If you open it, you may be committing a crime!
+<</if>>
+
+<<if !$backpack.has("lockpick") && $chest.hasAllTags("reinforced", "locked")>>
+  You don't have a lockpick and the chest is too strong to break. There's no way to open this chest right now.
+<</if>>
+
+<<if $chest.hasAnyTags("wooden", "weak", "cracked", "rusted lock")>>
+  You think you should be able to break this chest open!
+<</if>>
+
+<<if Item.get(_gearPiece).hasTag("head")>>
+  This piece of equipment is worn on your head!
+<</if>>
+
+<<if Item.get(_potion).hasAnyTags("spoiled", "poison", "tampered")>>
+  This potion will make you sick!
+<</if>>
+
+<<if Item.get(_weapon).hasAllTags("keen", "polished", "well forged")>>
+  This sword is truly a masterwork!
+<</if>>
 ```
 
 ## Inventory Events

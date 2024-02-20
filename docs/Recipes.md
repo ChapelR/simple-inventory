@@ -20,6 +20,14 @@ This recipe illustrates a very basic crafting and gathering style game.
 
 <div class="sc-frame"><iframe height="400px" src="recipes/crafting.html"></iframe><span title="Open in new tab">Open in new tab.</span></div>
 
+### Equipment
+
+This recipe shows how to create a basic equipment system.
+
+[View the twee source code.](recipes/equipment/index.twee ":ignore")
+
+<div class="sc-frame"><iframe height="400px" src="recipes/equipment.html"></iframe><span title="Open in new tab">Open in new tab.</span></div>
+
 ### Keys
 
 Key style items are very simple to create and use. Here's an example of the player being able to find an important item that can be used to advance.
