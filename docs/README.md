@@ -2,6 +2,9 @@
 
  The new simple inventory system. No longer a part of [my macro collection](https://macros.twinelab.net/), it's now its own thing. If you need the old version, grab [an older release (v2.10.0 or lower) of my custom macro collection](https://github.com/ChapelR/custom-macros-for-sugarcube-2/releases). If you find any bugs or have any issues, please [let me know](https://github.com/ChapelR/simple-inventory/issues/new)!
 
+ > [!TIP]
+ > New to Simple Inventory? Start with the [guide](Guide.md) and [recipes](Recipes.md) to see what the system is capable of!
+
 - [Downloads](https://github.com/ChapelR/simple-inventory/releases)
 - [Installation](#getting-started)
 - Guides
@@ -22,7 +25,7 @@ Features:
 - Simple interfaces for complex operations, like inventory transfers, merges, and comparisons.  
 - Items can optionally be predefined, but you may also just use bare strings for ultimate simplicity.  
 - Premade logic for unique and un-tradeable items.  
-- Support for "consumables" like potions, which can be paired with code callbacks for easy item creation.  
+- Built-in support for "consumables" like potions, which can be paired with a code "handler" for easy item creation.  
 - Duplicate items in a given inventory "stack" automatically.  
 - A suite of customizable UI components for displaying and allowing users to manage inventories easily.  
 - Text search/filter system built-in as an optional UI component.
