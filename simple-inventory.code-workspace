@@ -7,7 +7,7 @@
 	"settings": {
 		"twee3LanguageTools.storyformat.current": "sugarcube-2",
 		"files.exclude": {
-			"docs/recipes/**": true,
+			"docs/recipes/**.html": true,
 			"test/**": true,
 			"node_modules/**": true,
 			"dist/**": true,

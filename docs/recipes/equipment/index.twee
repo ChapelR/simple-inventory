@@ -1,0 +1,193 @@
+:: StoryTitle
+Simple Inventory 3 - Equipment
+
+:: StoryData
+{
+    "format": "SugarCube",
+    "format-version": "2.36.1",
+    "ifid": "862E1FA6-35C6-4E10-BB86-D720812D1528"
+}
+
+:: StoryInit
+/* create inventories for weapons and armor */
+<<newinv $weapons>>
+<<newinv $armor>>
+
+/* create equip slots */
+<<set $weaponSlot = "">>
+<<set $armorSlot = "">>
+
+/* create player base stats */
+<<set $player = {
+    attack : 10,
+    defense : 10,
+    agility : 10
+}>>
+
+/* create gear adustments */
+<<set $adjustments = {
+    weapon : {
+        attack : 0,
+        defense : 0,
+        agility : 0
+    },
+    armor : {
+        attack : 0,
+        defense : 0,
+        agility : 0
+    }
+}>>
+
+/* create equipment defs */
+/* weapons */
+<<set setup.weapon = new Map([
+    ["dagger", {
+        attack : 2,
+        defense : 0,
+        agility : 2
+    }],
+    ["sword", {
+        attack : 5,
+        defense : 1,
+        agility : 0
+    }],
+    ["claymore", {
+        attack : 8,
+        defense : 2,
+        agility : -3
+    }],
+    ["spear", {
+        attack : 5,
+        defense : 4,
+        agility : -2
+    }]
+])>>
+/* armor */
+<<set setup.armor = new Map([
+    ["cloth", {
+        attack : 0,
+        defense : 0,
+        agility : 2
+    }],
+    ["leather", {
+        attack : 0,
+        defense : 2,
+        agility : 0
+    }],
+    ["mail", {
+        attack : 0,
+        defense : 5,
+        agility : -2
+    }],
+    ["plate", {
+        attack : 0,
+        defense : 8,
+        agility : -4
+    }]
+])>>
+
+/* pickup items */
+<<pickup $weapons "dagger" 1 "sword" 1 "claymore" 1 "spear" 1>>
+<<pickup $armor "cloth" 1 "leather" 1 "mail" 1 "plate" 1>>
+
+/* equip interface */
+/* usage: `setup.equip("weapon", "dagger")` */
+/* usage: `setup.equip("armor", "")` */
+<<set setup.equip = function equip (slot, item) {
+    let adj;
+    if (slot !== "weapon" && slot !== "armor") {
+        throw new Error(`Invalid gear slot: ${slot}`);
+    }
+    if (item === "") {
+        adj = clone({ attack : 0, defense : 0, agility : 0 });
+    } else {
+        adj = setup[slot].get(item);
+    }
+    if (!adj) {
+        throw new Error(`Invalid weapon: ${item}`);
+    }
+    if (slot === "weapon") {
+        $weaponSlot = item;
+    } else {
+        $armorSlot = item;
+    }
+    $adjustments[slot] = clone(adj);
+}>>
+
+/* create interface for getting stats */
+/* usage: `setup.getStat("attack")` */
+<<set setup.getStat = function getStat (stat) {
+    if (ndef $player[stat]) {
+        throw new Error(`Invalid stat: ${stat}`);
+    }
+    let ret = Math.trunc(Math.clamp($player[stat] + $adjustments.weapon[stat] + $adjustments.armor[stat], 1, 99));
+    if (Number.isNaN(ret)) {
+        ret = 1;
+    }
+    return ret;
+}>>
+
+:: StoryCaption [nobr]
+@@#caption-stats;<<include "stat display">>@@
+
+:: stat display [nobr]
+<h3>Stats</h3>
+<p>Attack: <<= setup.getStat("attack")>></p>
+<p>Defense: <<= setup.getStat("defense")>></p>
+<p>Agility: <<= setup.getStat("agility")>></p>
+
+:: weapon select dialog [dialog nobr]
+<p>Select a new weapon to equip:</p>
+<ul>
+    <<for _weapon range $weapons.list>>
+        <<capture _weapon>>
+            <li><<button `"Equip " + _weapon`>>
+                <<run Dialog.close()>>
+                <<run setup.equip("weapon", _weapon)>>
+                <<replace "#caption-stats">><<include "stat display">><</replace>>
+                <<replace "#weapon-select">><<equip_weapon>><</replace>>
+            <</button>></li>
+        <</capture>>
+    <</for>>
+</ul>
+
+:: armor select dialog [dialog nobr]
+<p>Select a new armor set to equip:</p>
+<ul>
+    <<for _armor range $armor.list>>
+        <<capture _armor>>
+            <li><<button `"Equip " + _armor`>>
+                <<run Dialog.close()>>
+                <<run setup.equip("armor", _armor)>>
+                <<replace "#caption-stats">><<include "stat display">><</replace>>
+                <<replace "#armor-select">><<equip_armor>><</replace>>
+            <</button>></li>
+        <</capture>>
+    <</for>>
+</ul>
+
+:: equipment selector [widget nobr]
+<<widget "equip_weapon">>
+    Current weapon: 
+    <<button `$weaponSlot.toUpperFirst() || "Nothing"`>>
+        <<run Dialog.setup("Change Weapon"); 
+            Dialog.wiki(Story.get("weapon select dialog").processText()); 
+            Dialog.open()>>
+    <</button>>
+<</widget>>
+
+<<widget "equip_armor">>
+    Current armor: 
+    <<button `$armorSlot.toUpperFirst() || "Nothing"`>>
+        <<run Dialog.setup("Change Weapon"); 
+            Dialog.wiki(Story.get("armor select dialog").processText()); 
+            Dialog.open()>>
+    <</button>>
+<</widget>>
+
+:: Start
+Your current equipment:
+
+@@#weapon-select;<<equip_weapon>>@@
+
+@@#armor-select;<<equip_armor>>@@

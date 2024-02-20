@@ -16,7 +16,8 @@
     "recipe:keys": "tweego -o docs/recipes/keys.html dist docs/recipes/keys",
     "recipe:potions": "tweego -o docs/recipes/potions.html dist docs/recipes/potions",
     "recipe:shop": "tweego -o docs/recipes/shop.html dist docs/recipes/shop",
-    "recipe:all": "npm run recipe:collectibles & npm run recipe:crafting & npm run recipe:keys & npm run recipe:potions & npm run recipe:shop",
+    "recipe:equipment": "tweego -o docs/recipes/equipment.html dist docs/recipes/equipment",
+    "recipe:all": "npm run recipe:collectibles & npm run recipe:crafting & npm run recipe:keys & npm run recipe:potions & npm run recipe:shop & npm run recipe:equipment",
     "build:all": "npm run build && npm run demo & npm run recipe:all",
     "pack": "node pack.js"
   },
