@@ -110,6 +110,10 @@
                 if (Object.keys(dataOrInv).includes(item) && isUnique(item)) {
                     return; // item is unique, can't be added.
                 }
+                
+                if (num > 1 && isUnique(item)) {
+                    num = 1;
+                }
 
                 if (!Object.keys(dataOrInv).includes(item)) {
                     dataOrInv[item] = 0;
