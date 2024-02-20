@@ -33,3 +33,11 @@ ul.simple-inventory-list {
 .drop-link:hover {
     color: #f88;
 }
+
+.simple-inventory-filter {
+    text-align: right;
+}
+
+.simple-inventory-filter input {
+    display: inline-block;
+}

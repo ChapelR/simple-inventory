@@ -15,27 +15,33 @@
             .split(/\n/g);
     }
 
-    function breakPairs (line, sep) {
-        sep = sep || DEFAULT_SEPARATOR;
-        return line.trim().split(sep);
+    function breakPairs (line) {
+        return line.trim().split(DEFAULT_SEPARATOR);
     }
 
-    function parseText (text, sep) {
+    function parseText (text) {
         const lines = splitLines(text);
         const ret = {};
         lines.forEach(l => {
-            const pair = breakPairs(l, sep);
-            ret[pair[0].trim()] = pair[1].trim();
+            if (l && l.trim() && l.includes(DEFAULT_SEPARATOR)) {
+                const pair = breakPairs(l);
+                ret[pair[0].trim()] = pair[1].trim();
+            }
         });
         return ret;
     }
 
     function parseSourcePassage (psg) {
-        if (!Story.has(psg)) {
+        try {
+            if (!Story.has(psg)) {
+                return {};
+            }
+            const settings = parseText(Story.get(psg).text);
+            return settings;
+        } catch (err) {
+            console.error(err.message, err);
             return {};
         }
-        const settings = parseText(Story.get(psg).text);
-        return settings;
     }
 
     // parse source passage and set strings
