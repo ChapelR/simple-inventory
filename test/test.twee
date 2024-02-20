@@ -11,6 +11,9 @@ Simple Inventory 3
 :: StoryCaption
 HP: @@#hp;$hp@@ / 100
 
+:: inventory.strings
+drop: Discard
+
 :: StoryInit
 <<set $hp to 100>>
 
@@ -37,13 +40,13 @@ HP: @@#hp;$hp@@ / 100
 <<pickup $chest 'poison' 4 'potion' 3 'keyblade' 1>>
 
 :: Start
-<<inv $player inspect drop use stack all>>
+<<inv $player inspect drop use stack all filter>>
 
 [[Open treasure chest|chest]]
 [[inventory ui]]
 
 :: chest
-<<take $chest $player inspect all>>
+<<take $chest $player inspect all filter>>
 
 [[Go back|Start]]
 

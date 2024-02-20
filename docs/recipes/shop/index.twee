@@ -104,7 +104,7 @@ Gold: @@#gold;<<= $gold>>@@
 <</link>>
 
 :: Inventory
-<<inv $player>>
+<<inv $player filter>>
 
 :: Start
 You are at your house.
@@ -115,10 +115,10 @@ Next to you is your storage locker!
 [[Go to the market|Market]]
 
 :: Storage
-<h2>On hand:</h2>
-<<give $player $storage stack all>>
-<h2>In storage:</h2>
-<<take $storage $player stack all>>
+<h2>On hand:</h2>\
+<<give $player $storage stack all filter>>
+<h2>In storage:</h2>\
+<<take $storage $player stack all filter>>
 
 [[Go back|Start]]
 

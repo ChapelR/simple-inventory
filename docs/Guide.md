@@ -106,7 +106,7 @@ Both of the above would remove 10 items with the ID `"wood"` and 5 items with th
 > [!TIP]
 > If the inventory doesn't contain an item it's asked to drop, nothing happens. No errors will be thrown, and the items that are present in the command, if any, will be removed as normal. Please be careful as this may hide some bugs.
 
-You can also remove all of the items in one inventory from another inventory by <em>**un**merging</em> the latter drom the former. Like merging, unmerging does not affect the giving inventory, if you want to remove the items from one inventory and add them to another, see [transfers](#transfers) below.
+You can also remove all of the items in one inventory from another inventory by <em>**un**merging</em> the latter from the former. Like merging, unmerging does not affect the giving inventory, if you want to remove the items from one inventory and add them to another, see [transfers](#transfers) below.
 
 ```
 <<newinv _stolenItems>>
@@ -282,7 +282,15 @@ Want to add an option to drop all items? And how about a way to inspect the item
 
 ![Inventory with everything](media/inv-fully-loaded.jpg)
 
-You may also provide the flag`stack` to allow players to drop/transfer entire stacks of items all at once:
+There is also a built-in search/filter UI element you can add with the `filter` flag. This will allow players to type to filter the inventory.
+
+```
+<<inv $backpack use drop inspect all filter>>
+```
+
+![Inventory with everything](media/filter.jpg)
+
+You may also provide the flag `stack` to allow players to drop/transfer entire stacks of items all at once:
 
 ```
 <<inv $backpack use drop inspect stack all>> 
@@ -317,23 +325,23 @@ You can change the default strings used by the built-in interfaces, for example,
 
 The strings that can be changed in the special passage are as follows:
 
-- `inspect`: **not used** in the default interface, since the user clicks on the names of items to see their descriptions, however, a link for inspecting items may be needed in the future or by users. Default: `"Inspect"`
-- `drop`: appears as link text when users can drop items in the interface. Default: `"Drop"`
-- `take`: can appear as link text when users can transfer items in the interface. Default: `"Take"`
-- `give`: can appear as link text when users can transfer items in the interface. Default: `"Give"`
-- `use`: link text for the action allowing consumables to be used. Default: `"Use"`
-- `stack`: the text used to refer to an item stack when dropping or transferring whole stacks in the default interface. Default: `"stack"`
-- `stackPre`: string appears before the item stack counts. Default: `"&nbsp;&times;&nbsp;"` (that is,&nbsp;&times;&nbsp;)
-- `stackPost`: string appears after the item stack counts. Default: `"&nbsp;"`
-- `empty`: this string appears when an empty inventory is displayed. In the API, this is handled by a separate property, `Inventory.emptyMessage`, passing this value to `Inventory.strings` won't have any effect! Default: `"&hellip;"`
+- `inspect`: **not used** in the default interface, since the user clicks on the names of items to see their descriptions, however, a link for inspecting items may be needed in the future or by users. Default: `Inspect`
+- `drop`: appears as link text when users can drop items in the interface. Default: `Drop`
+- `take`: can appear as link text when users can transfer items in the interface. Default: `Take`
+- `give`: can appear as link text when users can transfer items in the interface. Default: `Give`
+- `use`: link text for the action allowing consumables to be used. Default: `Use`
+- `stack`: the text used to refer to an item stack when dropping or transferring whole stacks in the default interface. Default: `stack`
+- `stackPre`: string appears before the item stack counts. Default: `&nbsp;&times;&nbsp;` (that is,&nbsp;&times;&nbsp;)
+- `stackPost`: string appears after the item stack counts. Default: `&nbsp;`
+- `empty`: this string appears when an empty inventory is displayed. In the API, this is handled by a separate property, `Inventory.emptyMessage`, passing this value to `Inventory.strings` won't have any effect! Default: `&hellip;`
 
 For example, an `inventory.strings` special passage may look like this:
 
 ```
 :: inventory.strings
-use: "Activate"
-take: "Swipe"
-empty: "The inventory is empty!"
+use: Activate
+take: Swipe
+empty: The inventory is empty!
 ```
 
 To do the same thing with the API, the JavaScript code would look like this:

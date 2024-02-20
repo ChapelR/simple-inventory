@@ -205,6 +205,7 @@ These macros can be used to show the default user-interface components for manag
   - `use` allows the player to "use" an item if it is considered a consumable, and using it will expend one of the items and cause it's use code, if any, to be run. Refer to the `<<item>>` macro below.
   - `stack` shows a "Drop/Give/Take stack" option at the end of each item listing with more than 1 item in it. 
   - `all` shows a "Drop/Give/Take all" option at the bottom of the inventory list. 
+  - `filter` shows filter/search box for players to filter their inventories with. 
 
 #### Examples
 
@@ -225,6 +226,12 @@ These macros can be used to show the default user-interface components for manag
 ```
 
 ![Inventory with everything](media/inv-fully-loaded.jpg)
+
+```
+<<inv $backpack use drop inspect all filter>>
+```
+
+![Inventory with filter box](media/filter.jpg)
 
 ```
 <<inv $backpack use drop inspect stack all>>
@@ -314,8 +321,9 @@ For example:
 
 ```
 :: inventory.strings
-use: "Activate"
-take: "Swipe"
+use: Activate
+take: Swipe
+drop: Discard
 ```
 
 The strings you can change are:

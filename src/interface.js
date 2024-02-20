@@ -72,7 +72,7 @@
         text = text || Inventory.strings.inspect;
         return $(document.createElement(button ? 'button' : 'a'))
             .addClass('inspect-link')
-            .wiki("" + text)
+            .wiki("" + id)
             .ariaClick(() => {
                 Item.get(id).inspect();
             });
@@ -91,8 +91,10 @@
 
     // undocumented UI helper
     function dropLink (self, id, text, button = false, target = null) {
-        if (String(text).toLowerCase().trim() === "give" || !!target) {
-            text = Inventory.strings.give
+        if (String(text).toLowerCase().trim() === "give") {
+            text = Inventory.strings.give;
+        } else if (String(text).toLowerCase().trim() === "take") {
+            text = Inventory.strings.take;
         } else if (!text || String(text).toLowerCase().trim() === "drop") {
             text = Inventory.strings.drop;
         }
@@ -113,8 +115,10 @@
     }
 
     function dropStackLink (self, id, text, button = false, target = null) {
-        if (String(text).toLowerCase().trim() === "give" || !!target) {
-            text = Inventory.strings.give
+        if (String(text).toLowerCase().trim() === "give") {
+            text = Inventory.strings.give;
+        } else if (String(text).toLowerCase().trim() === "take") {
+            text = Inventory.strings.take;
         } else if (!text || String(text).toLowerCase().trim() === "drop") {
             text = Inventory.strings.drop;
         }
@@ -136,8 +140,10 @@
     }
 
     function dropAllLink (self, text, button = false, target = null) {
-        if (String(text).toLowerCase().trim() === "give" || !!target) {
-            text = Inventory.strings.give
+        if (String(text).toLowerCase().trim() === "give") {
+            text = Inventory.strings.give;
+        } else if (String(text).toLowerCase().trim() === "take") {
+            text = Inventory.strings.take;
         } else if (!text || String(text).toLowerCase().trim() === "drop") {
             text = Inventory.strings.drop;
         }
@@ -191,9 +197,10 @@
             $entries = self.list.map(id => {
 
                 const appendMe = [];
+                const itemName = !!(Item.has(id) && Item.get(id).displayName)  ? Item.get(id).displayName : id;
 
                 if (options.description && Item.has(id) && Item.get(id).description) {
-                    appendMe.push(inspectLink(self, id, Item.has(id) ? Item.get(id).name : id));
+                    appendMe.push(inspectLink(self, id, itemName));
                 } else {
                     appendMe.push($(document.createElement('span')).append(Item.has(id) ? Item.get(id).name : id).addClass('item-name'));
                 }
@@ -222,7 +229,10 @@
                 return $(document.createElement('li'))
                     .append(appendMe)
                     .addClass('simple-inventory-listing')
-                    .attr('data-item-id', iid);
+                    .attr({
+                        'data-item-id' : iid,
+                        'data-keyword' : itemName
+                    });
             });
 
             if (options.all) {
@@ -246,6 +256,37 @@
         return $list;
     }
 
+    function searchbox () {
+        const $wrapper = $(document.createElement("div")).addClass("simple-inventory-filter");
+        const $textbox = $(document.createElement("input"))
+            .attr({
+                type : "text",
+                placeholder : "Filter..."
+            })
+            .on("input", function () {
+                const value = $textbox.val().trim().toLowerCase();
+                const $listings = $wrapper.parent().find("ul.simple-inventory-list li.simple-inventory-listing:not(.all-listing)");
+                if (!value) {
+                    $listings.show();
+                    return;
+                }
+                $listings.each( function (i, el) {
+                    const $el = $(el);
+                    if (!$el || !$el.length) {
+                        return;
+                    }
+                    const keyword = $el.attr("data-keyword");
+                    if (keyword.substring(0, value.length).trim().toLowerCase() !== value) {
+                        $el.hide();
+                    } else {
+                        $el.show();
+                    }
+                });
+            });
+        $wrapper.append($textbox);
+        return $wrapper;
+    }
+
     // constructs inventory interface
     // very opinionated by necessity
     // include resipes for different UIs in docs
@@ -253,6 +294,10 @@
         const self = this;
 
         const $wrapper = $(document.createElement('div')).addClass('simple-inventory-wrapper');
+
+        if (opts.filter) {
+            $wrapper.append(searchbox());
+        }
         $wrapper.append(displayInventoryList(this, opts));
 
         $(document).on(':inventory-update.simple-inventory.gui-built-in', () => {

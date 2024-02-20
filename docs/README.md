@@ -1,9 +1,9 @@
 # Simple Inventory 3
 
-> [!NOTE]
-> Simple Inventory v3 is in beta right now. It should work, but there may be bugs and rough edges. Please [report any issues](https://github.com/ChapelR/simple-inventory/issues/new) you encounter!
+ The new simple inventory system. No longer a part of [my macro collection](https://macros.twinelab.net/), it's now its own thing. If you need the old version, grab [an older release (v2.10.0 or lower) of my custom macro collection](https://github.com/ChapelR/custom-macros-for-sugarcube-2/releases). If you find any bugs or have any issues, please [let me know](https://github.com/ChapelR/simple-inventory/issues/new)!
 
- The new version of my simple inventory system. No longer a part of [my macro collection](https://macros.twinelab.net/), it's now its own thing. If you need the old version, grab [an older release (v2.10.0 or lower) of my custom macro collection](https://github.com/ChapelR/custom-macros-for-sugarcube-2/releases).
+ > [!TIP]
+ > New to Simple Inventory? Start with the [guide](Guide.md) and [recipes](Recipes.md) to see what the system is capable of!
 
 - [Downloads](https://github.com/ChapelR/simple-inventory/releases)
 - [Installation](#getting-started)
@@ -20,19 +20,17 @@
 - [Demo](demo.html ":ignore")
 - [Source Code](https://github.com/ChapelR/simple-inventory/)
 
-Version 3 includes most of the features and functionality of v2, and adds:
+Features:  
+- Support for an arbitrary number of inventories, so they can be used as player inventories, chests, rooms, NPC inventories, etc.  
+- Simple interfaces for complex operations, like inventory transfers, merges, and comparisons.  
+- Items can optionally be predefined, but you may also just use bare strings for ultimate simplicity.  
+- Premade logic for unique and un-tradeable items.  
+- Built-in support for "consumables" like potions, which can be paired with a code "handler" for easy item creation.  
+- Duplicate items in a given inventory "stack" automatically.  
+- A suite of customizable UI components for displaying and allowing users to manage inventories easily.  
+- Text search/filter system built-in as an optional UI component.
 
-- Consumables. Items can be associated with SugarCube code (sort of like a widget) or a callback function that can be executed when the item is "used."
-- Item descriptions (as dialogs).
-- Item names. You can provide items with both names and IDs, using the ID in code while the name will be used for displaying it in the game.
-- Item and inventory tags. You can add tags to items and inventories as metadata.
-- Item stacking. Duplicate items in an inventory can now *stack* meaning they'll take up one visual "slot" in the inventory, but will have a counter showing how many are present.
-- More robust built-in UI options and components.
-- A cleaned up, mostly simplified API and code structure.
-
-Most new features are optional; you don't have to define items, for example. With the exception of stacking, it's possible to use this inventory in almost exactly the same way as v2.
-
-This new simple inventory is totally incompatible with previous versions. Updating will require rewrites, so you may want to stick with v2 in ongoing projects.
+Most features are optional; you don't have to define items, for example. With the exception of stacking, it's possible to use this inventory in almost exactly the same way as v2. Note that this new simple inventory is totally incompatible with previous versions. Updating will require code rewrites, so you may want to stick with v2 in ongoing projects.
 
 ## Getting Started
 
