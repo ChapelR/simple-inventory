@@ -25,7 +25,7 @@
                 throw new Error('invalid item definition');
             }
             
-            Object.assign(this, Object.assign(defaultOpts, opts));
+            Object.assign(this, Object.assign({}, defaultOpts, opts));
             this.id = id;
             this._tags = tags instanceof Array ? tags : 
                 typeof tags === 'string' ? [ tags ] : [];

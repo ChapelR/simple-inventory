@@ -72,7 +72,7 @@
         text = text || Inventory.strings.inspect;
         return $(document.createElement(button ? 'button' : 'a'))
             .addClass('inspect-link')
-            .wiki("" + id)
+            .wiki("" + text)
             .ariaClick(() => {
                 Item.get(id).inspect();
             });
@@ -197,7 +197,10 @@
             $entries = self.list.map(id => {
 
                 const appendMe = [];
-                const itemName = !!(Item.has(id) && Item.get(id).displayName)  ? Item.get(id).displayName : id;
+                let itemName = id;
+                if (Item.has(id)) {
+                    itemName = Item.get(id).name;
+                }
 
                 if (options.description && Item.has(id) && Item.get(id).description) {
                     appendMe.push(inspectLink(self, id, itemName));
